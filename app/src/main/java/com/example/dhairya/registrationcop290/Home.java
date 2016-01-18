@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class Home extends AppCompatActivity {
 
-    private int min_distance = 50;
+    private int min_distance = 350;
     private float downX, downY, upX, upY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

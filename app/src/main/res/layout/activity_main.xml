@@ -7,13 +7,162 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/background"
     tools:context="com.example.dhairya.registrationcop290.MainActivity">
 
-</RelativeLayout>
 
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:id="@=id/teamName">
-</EditText>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team Name* :"
+        android:id="@+id/teamName"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/teamNameEdit"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="140dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000">
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Member 1*"
+        android:id="@+id/member1"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="48dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Entry1Edit"
+        android:layout_marginTop="65dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Entry Number">
+    </EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Name1Edit"
+        android:layout_marginTop="97dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Name"
+        android:inputType="textPersonName">
+    </EditText>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Member 2*"
+        android:id="@+id/member2"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="143dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Entry2Edit"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Entry Number">
+    </EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Name2Edit"
+        android:layout_marginTop="192dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Name"
+        android:inputType="textPersonName">
+    </EditText>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Member 3"
+        android:id="@+id/member3"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="238dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Entry3Edit"
+        android:layout_marginTop="255dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Entry Number">
+    </EditText>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Name3Edit"
+        android:layout_marginTop="287dp"
+        android:layout_marginLeft="50dp"
+        android:theme="@style/Theme.App.Base"
+        android:textColor="#e60000"
+        android:hint="Name"
+        android:inputType="textPersonName">
+    </EditText>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="*mandatory fields"
+        android:id="@+id/asterisk"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="330dp"
+        android:textSize="15sp"
+        android:textColor="#b30000"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:id="@+id/submitButton"
+        android:background="#4d0000"
+        android:textSize="17sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_below="@+id/asterisk"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
+
+</RelativeLayout>
 
