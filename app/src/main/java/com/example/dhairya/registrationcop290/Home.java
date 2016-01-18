@@ -1,12 +1,18 @@
 package com.example.dhairya.registrationcop290;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class Home extends AppCompatActivity {
 
+    private int min_distance = 50;
+    private float downX, downY, upX, upY;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,5 +30,46 @@ public class Home extends AppCompatActivity {
         Typeface tf4 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
         TextView tv4 = (TextView) findViewById(R.id.sessionText);
         tv4.setTypeface(tf4);
+
+        final ViewGroup rootview = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
+        rootview.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        downX = event.getX();
+                        downY = event.getY();
+                        return true;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        upX = event.getX();
+                        upY = event.getY();
+
+                        float deltaX = downX - upX;
+                        float deltaY = downY - upY;
+
+                        //HORIZONTAL SCROLL
+                        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                            if (Math.abs(deltaX) > min_distance) {
+                                // left or right
+
+                                if (deltaX > 0) {
+                                    this.onRightToLeftSwipe();
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            public void onRightToLeftSwipe() {
+                Intent intent = new Intent(Home.this, MainActivity.class);
+                startActivity(intent);
+            }
+
+        });
     }
 }
