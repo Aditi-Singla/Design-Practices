@@ -17,8 +17,8 @@
         android:text="Team Name* :"
         android:id="@+id/teamName"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
-        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         />
@@ -27,10 +27,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/teamNameEdit"
-        android:layout_marginTop="1dp"
-        android:layout_marginLeft="140dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="110dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000">
+        android:textSize="18sp"
+        android:textColor="#800000"
+        android:inputType="textNoSuggestions|textCapWords"
+        android:singleLine="true">
     </EditText>
 
     <TextView
@@ -40,7 +43,7 @@
         android:id="@+id/member1"
         android:layout_alignParentTop="true"
         android:layout_marginTop="48dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         />
@@ -52,8 +55,11 @@
         android:layout_marginTop="65dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
-        android:hint="Entry Number">
+        android:textSize="15sp"
+        android:textColor="#800000"
+        android:hint="Entry Number"
+        android:inputType="textNoSuggestions|textCapCharacters"
+        android:singleLine="true">
     </EditText>
 
     <EditText
@@ -63,9 +69,11 @@
         android:layout_marginTop="97dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
+        android:textSize="15sp"
+        android:textColor="#800000"
         android:hint="Name"
-        android:inputType="textPersonName">
+        android:inputType="textNoSuggestions|textCapWords"
+        android:singleLine="true">
     </EditText>
 
 
@@ -76,7 +84,7 @@
         android:id="@+id/member2"
         android:layout_alignParentTop="true"
         android:layout_marginTop="143dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         />
@@ -88,8 +96,11 @@
         android:layout_marginTop="160dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
-        android:hint="Entry Number">
+        android:textSize="15sp"
+        android:textColor="#800000"
+        android:hint="Entry Number"
+        android:inputType="textNoSuggestions|textCapCharacters"
+        android:singleLine="true">
     </EditText>
 
     <EditText
@@ -99,9 +110,11 @@
         android:layout_marginTop="192dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
+        android:textSize="15sp"
+        android:textColor="#800000"
         android:hint="Name"
-        android:inputType="textPersonName">
+        android:inputType="textNoSuggestions|textCapWords"
+        android:singleLine="true">
     </EditText>
 
 
@@ -112,7 +125,7 @@
         android:id="@+id/member3"
         android:layout_alignParentTop="true"
         android:layout_marginTop="238dp"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000"
         />
@@ -124,8 +137,11 @@
         android:layout_marginTop="255dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
-        android:hint="Entry Number">
+        android:textSize="15sp"
+        android:textColor="#800000"
+        android:hint="Entry Number"
+        android:inputType="textNoSuggestions|textCapCharacters"
+        android:singleLine="true">
     </EditText>
 
     <EditText
@@ -135,9 +151,11 @@
         android:layout_marginTop="287dp"
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
-        android:textColor="#e60000"
+        android:textSize="15sp"
+        android:textColor="#800000"
         android:hint="Name"
-        android:inputType="textPersonName">
+        android:inputType="textNoSuggestions|textCapWords"
+        android:singleLine="true">
     </EditText>
 
     <TextView
@@ -146,8 +164,8 @@
         android:text="*mandatory fields"
         android:id="@+id/asterisk"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="330dp"
-        android:textSize="15sp"
+        android:layout_marginTop="340dp"
+        android:textSize="12sp"
         android:textColor="#b30000"
         />
 
@@ -156,13 +174,13 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/submitButton"
-        android:background="#4d0000"
+        android:background="@drawable/rounded_corner"
         android:textSize="17sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:layout_below="@+id/asterisk"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp" />
+        android:layout_marginTop="15dp"
+        />
 
 </RelativeLayout>
-
