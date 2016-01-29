@@ -57,7 +57,10 @@
         android:theme="@style/Theme.App.Base"
         android:textSize="15sp"
         android:textColor="#800000"
+<<<<<<< HEAD
         android:maxLength="11"
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         android:hint="Entry Number"
         android:inputType="textNoSuggestions|textCapCharacters"
         android:singleLine="true">
@@ -98,7 +101,10 @@
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
         android:textSize="15sp"
+<<<<<<< HEAD
         android:maxLength="11"
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         android:textColor="#800000"
         android:hint="Entry Number"
         android:inputType="textNoSuggestions|textCapCharacters"
@@ -140,7 +146,10 @@
         android:layout_marginLeft="50dp"
         android:theme="@style/Theme.App.Base"
         android:textSize="15sp"
+<<<<<<< HEAD
         android:maxLength="11"
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         android:textColor="#800000"
         android:hint="Entry Number"
         android:inputType="textNoSuggestions|textCapCharacters"

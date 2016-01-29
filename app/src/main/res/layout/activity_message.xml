@@ -25,6 +25,7 @@
         android:textColor="#000000"
         android:textStyle="normal"
         android:typeface="serif" />
+<<<<<<< HEAD
 
     <TextView
         android:layout_width="match_parent"
@@ -42,6 +43,8 @@
         android:textColor="#000000"
         android:textStyle="normal"
         android:typeface="serif" />
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
 
     <Button
         android:layout_width="match_parent"
@@ -53,7 +56,11 @@
         android:layout_marginTop="100dp"
         android:text="Submit another response"
         android:id="@+id/submitAnother"
+<<<<<<< HEAD
         android:layout_below="@+id/dataText"
+=======
+        android:layout_below="@+id/messageText"
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
         android:onClick="submitAnotherResponse" />

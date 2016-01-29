@@ -14,6 +14,7 @@ public class Message extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         String message = getIntent().getStringExtra("response");
+<<<<<<< HEAD
         String teamname = getIntent().getStringExtra("teamname");
         String entry1 = getIntent().getStringExtra("entry1");
         String name1 = getIntent().getStringExtra("name1");
@@ -44,6 +45,22 @@ public class Message extends AppCompatActivity {
 
         Typeface tf2 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
         TVmessage1.setTypeface(tf2);
+=======
+        TextView TVmessage = (TextView)findViewById(R.id.messageText);
+
+        if (message.charAt(45)=='D')
+            message = "Registration unsuccessful! \nRequired fields are missing.";
+        else if (message.charAt(45)=='R')
+            message = "Registration completed!";
+        else if(message.charAt(45)=='U')
+            message = "Registration unsuccessful! \nOne or more users with given details have already registered.";
+
+        TVmessage.setText(message);
+
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/CormorantUpright-Semibold.ttf");
+        TextView tv1 = (TextView) findViewById(R.id.messageText);
+        tv1.setTypeface(tf1);
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
     }
 
     public void submitAnotherResponse(View v)

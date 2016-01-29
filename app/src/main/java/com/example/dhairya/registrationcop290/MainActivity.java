@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onResponse(String response) {
                         Intent intent = new Intent(MainActivity.this, Message.class);
                         intent.putExtra("response", response);
+<<<<<<< HEAD
                         intent.putExtra("teamname",ETteamname.getText().toString());
                         intent.putExtra("entry1",ETentry1.getText().toString());
                         intent.putExtra("name1",ETname1.getText().toString());
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("name2", ETname2.getText().toString());
                         intent.putExtra("entry3",ETentry3.getText().toString());
                         intent.putExtra("name3",ETname3.getText().toString());
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
@@ -159,7 +162,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showError(ETentry1);
             return false;
         }
+<<<<<<< HEAD
         if (!isValidEntry(ETentry1.getText().toString().trim())) {
+=======
+        if (!isValidEntry(ETentry1.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
             ETentry1.setError("Invalid entry number");
             showError(ETentry1);
             return false;
@@ -170,7 +177,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showError(ETname1);
             return false;
         }
+<<<<<<< HEAD
         if (!isValidName(ETname1.getText().toString().trim())) {
+=======
+        if (!isValidName(ETname1.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
             ETname1.setError("Invalid name");
             showError(ETname1);
             return false;
@@ -181,7 +192,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showError(ETentry2);
             return false;
         }
+<<<<<<< HEAD
         if (!isValidEntry(ETentry2.getText().toString().trim())) {
+=======
+        if (!isValidEntry(ETentry2.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
             ETentry2.setError("Invalid entry number");
             showError(ETentry2);
             return false;
@@ -192,7 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showError(ETname2);
             return false;
         }
+<<<<<<< HEAD
         if (!isValidName(ETname2.getText().toString().trim())) {
+=======
+        if (!isValidName(ETname2.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
             ETname2.setError("Invalid name");
             showError(ETname2);
             return false;
@@ -206,7 +225,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showError(ETentry3);
                 return false;
             }
+<<<<<<< HEAD
             if (!isValidEntry(ETentry3.getText().toString().trim())) {
+=======
+            if (!isValidEntry(ETentry3.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
                 ETentry3.setError("Invalid entry number");
                 showError(ETentry3);
                 return false;
@@ -217,12 +240,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 showError(ETname3);
                 return false;
             }
+<<<<<<< HEAD
             if (!isValidName(ETname3.getText().toString().trim())) {
+=======
+            if (!isValidName(ETname3.getText().toString())) {
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
                 ETname3.setError("Invalid name");
                 showError(ETname3);
                 return false;
             }
         }
+<<<<<<< HEAD
         if (ETentry1.getText().toString().trim().equals(ETentry2.getText().toString().trim())) {
             ETentry2.setError("Entry number already used");
             showError(ETentry2);
@@ -238,6 +266,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             showError(ETentry3);
             return false;
         }
+=======
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         return true;
     }
 
@@ -269,7 +299,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pattern += "||[A][M][Y]||[B][S][Y]||[B][E][Y]||[C][H][Y]||[C][S][Y]||[C][E][Y]||[E][E][Y]||[M][E][Y]||[S][I][Y]";
         pattern += "||[A][M][Z]||[C][R][Z]||[A][S][Z]||[B][E][Z]||[B][L][Z]||[B][M][Z]||[C][H][Z]||[C][Y][Z]||[C][E][Z]||[C][S][Z]||[E][E][Z]||[E][S][Z]";
         pattern += "||[H][U][Z]||[I][T][Z]||[S][I][Z]||[I][D][Z]||[S][M][Z]||[M][A][Z]||[M][E][Z]||[P][H][Z]||[P][S][Z]||[R][D][Z]||[B][S][Z]";
+<<<<<<< HEAD
         pattern += "||[T][T][Z]||[V][E][Z])";               //according to IIT brochure, 2013
+=======
+        pattern += "||[T][T][Z]||[V][E][Z])";
+>>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
         if (!temp.matches(pattern))
             return false;
         temp = str.substring(7, 11);
