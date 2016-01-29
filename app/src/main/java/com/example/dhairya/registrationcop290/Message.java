@@ -1,6 +1,7 @@
 package com.example.dhairya.registrationcop290;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,16 +14,36 @@ public class Message extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
         String message = getIntent().getStringExtra("response");
-        TextView TVmessage = (TextView)findViewById(R.id.textView);
+        String teamname = getIntent().getStringExtra("teamname");
+        String entry1 = getIntent().getStringExtra("entry1");
+        String name1 = getIntent().getStringExtra("name1");
+        String entry2 = getIntent().getStringExtra("entry2");
+        String name2 = getIntent().getStringExtra("name2");
+        String entry3 = getIntent().getStringExtra("entry3");
+        String name3 = getIntent().getStringExtra("name3");
+        TextView TVmessage = (TextView)findViewById(R.id.messageText);
+        TextView TVmessage1 = (TextView)findViewById(R.id.dataText);
+        String message1 = "";
+
 
         if (message.charAt(45)=='D')
-            message = "Registration unsuccessful! Required fields are missing.";
-        else if (message.charAt(45)=='R')
-            message = "Registration completed!";
+            message = "REGISTRATION UNSUCCESSFUL! \nRequired fields are missing.";
+        else if (message.charAt(45)=='R') {
+            message = "Registration Successful!";
+            message1 = "\nTeam Name: " + teamname + "\n" + entry1 + " " + name1 + "\n" + entry2 + " " + name2 + "\n" + entry3 + " " + name3;
+
+        }
         else if(message.charAt(45)=='U')
-            message = "Registration unsuccessful! One or more users with given details have already registered.";
+            message = "Registration Unsuccessful! \nOne or more users with given details have already registered.\n";
 
         TVmessage.setText(message);
+        TVmessage1.setText(message1);
+
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/CormorantUpright-Semibold.ttf");
+        TVmessage.setTypeface(tf1);
+
+        Typeface tf2 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Rg.ttf");
+        TVmessage1.setTypeface(tf2);
     }
 
     public void submitAnotherResponse(View v)
