@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Bd.ttf");
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Bd.ttf");  //This is for the font styles of front page
         TextView tv1 = (TextView) findViewById(R.id.titleText1);
         tv1.setTypeface(tf1);
         tv1 = (TextView) findViewById(R.id.titleText2);
@@ -55,7 +55,8 @@ public class LoginActivity extends Activity {
         Password = (EditText) findViewById(R.id.password);
 
 
-
+        //NoDefaultSpinner for the category LoginType
+        //The inputs are the username, password and the logintype (admin or user)
         NoDefaultSpinner spinner = (NoDefaultSpinner) findViewById(R.id.category);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -66,9 +67,7 @@ public class LoginActivity extends Activity {
                 if (parent.getItemAtPosition(position) != null)
                     category(parent.getItemAtPosition(position));
 
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -77,9 +76,9 @@ public class LoginActivity extends Activity {
 
     public void category(Object c) {
         category = c.toString();
-    }
+    } //The category object is converted to string
 
-    public void login(View v){
+    public void login(View v){  //The login function for String request
         final String usrnm = Username.getText().toString().trim();
         final String pswd = Password.getText().toString().trim();
         final String categ = category;
@@ -100,7 +99,7 @@ public class LoginActivity extends Activity {
                             ex.printStackTrace();
                         }
                         try {
-                            if (response1.getInt("success") == 1) {
+                            if (response1.getInt("success") == 1) {  //The user type and name extracted from the response are sent into the next activity for further usage and display
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("usertype",response1.getString("usertype"));
                                 intent.putExtra("name", response1.getString("name"));
@@ -125,19 +124,14 @@ public class LoginActivity extends Activity {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
                 params.put("username", usrnm);
-                params.put("password", pswd);
+                params.put("password", pswd);  //This map is for the post request made..The required parameters are passed in a map in the StringRequest
                 params.put("logintype", categ);
                 return params;
             }
         };
 
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsObjRequest);
-
-
-    }
-
-
+        }
     }
 

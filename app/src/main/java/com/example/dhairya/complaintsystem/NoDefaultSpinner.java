@@ -15,7 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class NoDefaultSpinner extends Spinner {
-
+        //Class for the NoDefaultSpinner
     public NoDefaultSpinner(Context context) {
         super(context);
     }
