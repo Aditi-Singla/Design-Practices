@@ -30,6 +30,8 @@
 
     </string-array>
 
+    <string-array name="emptyArray"></string-array>
+
     <string-array name="admin">
 
         <item>Admin</item>
@@ -50,6 +52,36 @@
         <item>Satpura</item>
         <item>Karakoram</item>
         <item>Zanskar</item>
+    </string-array>
+
+    <string-array name="level">
+        <item>Individual</item>
+        <item>Hostel</item>
+        <item>Institute</item>
+    </string-array>
+    
+    <string-array name="IndividualTypes">
+        <item>Academics</item>
+        <item>Electrical</item>
+        <item>Plumbing</item>
+        <item>Security</item>
+    </string-array>
+
+    <string-array name="HostelTypes">
+        <item>Mess</item>
+        <item>Maintenance</item>
+        <item>Sports</item>
+        <item>Cultural</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="InstituteTypes">
+        <item>Academics</item>
+        <item>Electrical</item>
+        <item>Plumbing</item>
+        <item>Security</item>
+        <item>Sports</item>
+        <item>Cultural</item>
     </string-array>
 
 

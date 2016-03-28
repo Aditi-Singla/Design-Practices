@@ -256,7 +256,7 @@ public class FragAddUser extends android.support.v4.app.Fragment {
                             params.put("usertype",ut);
                         if(h!=null)
                             params.put("hostel",h);
-                        if(n!=nulgl)
+                        if(n!=null)
                             params.put("name",n);
                         if(e!=null)
                             params.put("entryno",e);

@@ -1,12 +1,7 @@
 package com.example.dhairya.complaintsystem;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,6 +29,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class LoginActivity extends Activity {
     String category;
     private EditText Username;
@@ -45,7 +41,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Bd.ttf");  //This is for the font styles of front page
+        Typeface tf1 = Typeface.createFromAsset(getAssets(), "fonts/Aller_Bd.ttf");
         TextView tv1 = (TextView) findViewById(R.id.titleText1);
         tv1.setTypeface(tf1);
         tv1 = (TextView) findViewById(R.id.titleText2);
@@ -55,8 +51,7 @@ public class LoginActivity extends Activity {
         Password = (EditText) findViewById(R.id.password);
 
 
-        //NoDefaultSpinner for the category LoginType
-        //The inputs are the username, password and the logintype (admin or user)
+
         NoDefaultSpinner spinner = (NoDefaultSpinner) findViewById(R.id.category);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -67,7 +62,9 @@ public class LoginActivity extends Activity {
                 if (parent.getItemAtPosition(position) != null)
                     category(parent.getItemAtPosition(position));
 
+
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -76,16 +73,12 @@ public class LoginActivity extends Activity {
 
     public void category(Object c) {
         category = c.toString();
-    } //The category object is converted to string
+    }
 
-    public void login(View v){  //The login function for String request
+    public void login(View v){
         final String usrnm = Username.getText().toString().trim();
         final String pswd = Password.getText().toString().trim();
         final String categ = category;
-        final String MyPREFERENCES = "MyPrefs" ;
-        final String UserName = "usernameKey";
-        final String PassWord = "passwordKey";
-        final String LoginType = "logintypeKey";
         String URL = "http://10.192.58.152:80/complaint_management/default/login.php";
 
         StringRequest jsObjRequest = new StringRequest(Request.Method.POST, URL,
@@ -99,12 +92,11 @@ public class LoginActivity extends Activity {
                             ex.printStackTrace();
                         }
                         try {
-                            if (response1.getInt("success") == 1) {  //The user type and name extracted from the response are sent into the next activity for further usage and display
+                            if (response1.getInt("success") == 1) {
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra("usertype",response1.getString("usertype"));
-                                intent.putExtra("name", response1.getString("name"));
+                                intent.putExtra("name",response1.getString("name"));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//
                                 startActivity(intent);
                             } else
                                 Toast.makeText(LoginActivity.this, response1.getString("message"), Toast.LENGTH_LONG).show();
@@ -123,15 +115,23 @@ public class LoginActivity extends Activity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/x-www-form-urlencoded");
-                params.put("username", usrnm);
-                params.put("password", pswd);  //This map is for the post request made..The required parameters are passed in a map in the StringRequest
-                params.put("logintype", categ);
+                if(usrnm!=null)
+                    params.put("username", usrnm);
+                if(pswd!=null)
+                    params.put("password", pswd);
+                if(categ!=null)
+                    params.put("logintype", categ);
                 return params;
             }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsObjRequest);
-        }
+
+
+    }
+
+
     }
 
