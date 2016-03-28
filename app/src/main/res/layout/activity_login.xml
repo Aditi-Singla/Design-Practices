@@ -8,7 +8,7 @@
     android:paddingRight="20dp"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.dhairya.complaintsystem.LoginActivity"
-    android:background="#ff9933">
+    android:background="@drawable/iitdelhi">
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,9 +20,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:textSize="70sp"
-        android:textColor="#ffffff"
+        android:textColor="#595959"
         android:textStyle="bold"
-        android:shadowColor="#e6e6e6"
+        android:shadowColor="#000000"
         android:shadowRadius="4"
         android:shadowDx="-2"
         android:shadowDy="-2"

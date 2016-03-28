@@ -1,4 +1,4 @@
-package com.example.dhairya.complaintsystem;
+package layout;
 
 /**
  * Created by Aditi Singla on 27-Mar-16.
@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.dhairya.complaintsystem.R;
 
 public class FragMyAccount extends android.support.v4.app.Fragment {
 

@@ -34,11 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    //The main Activiity where we have the navigation drawer
-    //All the pages from the navigation drawer expand as fragments
-    //in the container in the activity.
-    //The name and usertype(Admin,SpecialUser or ordinaryUser) are received from the intent.
-    //The drawer is populated according to the usertype.
     String name;
     int specialuser = 0; // 1 for specialuser
     TextView headerName;
@@ -52,19 +47,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //specialUser = 0 for ordinary
-        //            = 1 for Special Users - House Secy, Hostel Warden or Dean Academics
-        //            = 2 for admin
         if(name.equals("admin"))
             specialuser = 2;
         else if(userType.equals("House Secretary")||userType.equals("Hostel Warden")||userType.equals("Dean Academics"))
             specialuser = 1;
 
-        if(specialuser==2) { // for adder only Add User and logout options are valid! So the default fragment is the fragAddUser
+        if(specialuser==2) {
             setTitle("Add User");
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = com.example.dhairya.complaintsystem.FragAddUser.class;
+            fragmentClass = layout.FragAddUser.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -74,8 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
             // Set action bar title
-
-           //Populate the navigation View  with AddUser and Logout options.
             NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
             Menu m = navView.getMenu();
             m.add("Add User");
@@ -83,11 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             m.add("Logout");
             m.getItem(1).setIcon(R.drawable.ic_logout_black);
         }
-        else if (specialuser==1) { //If a special user, the default fragment is the AllComplaints fragment.
+        else if (specialuser==1) {
             setTitle("All Complaints");
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = com.example.dhairya.complaintsystem.FragAllComplaints.class;
+            fragmentClass = layout.FragAllComplaints.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -97,8 +87,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
             // Set action bar title
-
-            //NavigationView contains WriteComplaint,AllComplaints,Notifications,Add User and Logout
             NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
             Menu m = navView.getMenu();
             m.add("Write Complaint");
@@ -113,11 +101,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             m.getItem(4).setIcon(R.drawable.ic_logout_black);
         }
         else{
-            //The ordinary User: Default fragment is All Complaints
             setTitle("All Complaints");
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = com.example.dhairya.complaintsystem.FragAllComplaints.class;
+            fragmentClass = layout.FragAllComplaints.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
@@ -127,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
             // Set action bar title
-
-            //NavigationView contains WriteComplaint,AllComplaints,Notifications and Logout
             NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
             Menu m = navView.getMenu();
             m.add("Write Complaint");
@@ -140,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             m.add("Logout");
             m.getItem(3).setIcon(R.drawable.ic_logout_black);
         }
-        //Functioning of the DrawerLayout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -152,18 +136,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed() { //On backPressed, drawer closes
+    public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //When created, the header view in drawer is populted with the Name and the option to view his/her profile (which opens in a new fragment)
         headerName = (TextView)findViewById(R.id.header_name);
         viewProfile = (TextView)findViewById(R.id.view_profile);
 //        try{
@@ -172,27 +155,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
 //        }
 //        try{
-            viewProfile.setText("View Profile");//On view Profile, the fragment of MyAccount opens
-            viewProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Fragment fragment = null;
-                    Class fragmentClass = null;
-                    fragmentClass = com.example.dhairya.complaintsystem.FragMyAccount.class;
-                    try {
-                        fragment = (Fragment) fragmentClass.newInstance();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    // Insert the fragment by replacing any existing fragment
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-                    // Set action bar title
-                    setTitle(name);
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
+        viewProfile.setText("View Profile");
+        viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = null;
+                Class fragmentClass = null;
+                fragmentClass = layout.FragMyAccount.class;
+                try {
+                    fragment = (Fragment) fragmentClass.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            });
+                // Insert the fragment by replacing any existing fragment
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+                // Set action bar title
+                setTitle(name);
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
 //        }
 //        catch(Exception e){
 //            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
@@ -204,65 +187,64 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        //When any option is clicked in the navigationView, the corresponding fragment opens.
-        Fragment fragment = null;
-        Class fragmentClass =null;
-        if (item.getTitle()=="Write Complaint") {
-            fragmentClass = com.example.dhairya.complaintsystem.FragWriteComplaint.class;
-            //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="All Complaints") {
-            fragmentClass = com.example.dhairya.complaintsystem.FragAllComplaints.class;
-            //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Notifications") {
-            fragmentClass = com.example.dhairya.complaintsystem.FragNotifications.class;
-            //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Add User") {
-            fragmentClass = com.example.dhairya.complaintsystem.FragAddUser.class;
-            //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Logout") {
-            fragmentClass = com.example.dhairya.complaintsystem.FragLogout.class;
+        if (item.getTitle()=="Logout") {
             //Toast.makeText(MainActivity.this,"Logout", Toast.LENGTH_LONG).show();
             //public void login(View v){
-              //  final String usrnm = Username.getText().toString().trim();
-               // final String pswd = Password.getText().toString().trim();
-               // final String categ = category;
+            //  final String usrnm = Username.getText().toString().trim();
+            // final String pswd = Password.getText().toString().trim();
+            // final String categ = category;
+            String URL = "http://10.192.58.152:80/complaint_management/default/logout.php";
 
-                //For the logout, the logout StringRequest is sent and returns to the LoginPage with the session ending for that user.
-                String URL = "http://10.192.58.152:80/complaint_management/default/logout.php";
+            StringRequest jsObjRequest = new StringRequest(Request.Method.POST, URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(jsObjRequest);
+        }else {
+            Fragment fragment = null;
+            Class fragmentClass = null;
+            if (item.getTitle() == "Write Complaint") {
+                fragmentClass = layout.FragWriteComplaint.class;
+                //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "All Complaints") {
+                fragmentClass = layout.FragAllComplaints.class;
+                //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "Notifications") {
+                fragmentClass = layout.FragNotifications.class;
+                //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "Add User") {
+                fragmentClass = layout.FragAddUser.class;
+                //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
+            }
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-                StringRequest jsObjRequest = new StringRequest(Request.Method.POST, URL,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(jsObjRequest);
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+
+            // Set action bar title
+            setTitle(item.getTitle());
         }
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-
-        // Set action bar title
-        setTitle(item.getTitle());
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
