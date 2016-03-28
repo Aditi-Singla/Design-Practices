@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_array">
+
+        <item>Admin</item>
+        <item>User</item>
+
+
+    </string-array>
+
+
+
+    <string-array name="user">
+
+        <item>House Secretary</item>
+        <item>Maintenance Secretary</item>
+        <item>Mess Secretary</item>
+        <item>Cultural Secretary</item>
+        <item>Sports Secretary</item>
+        <item>BRCA General Secretary</item>
+        <item>BSA General Secretary</item>
+        <item>Other Student</item>
+        <item>Hostel Warden</item>
+        <item>Dean Academics</item>
+        <item>Other Faculty</item>
+        <item>Electrician</item>
+        <item>Plumber</item>
+        <item>Security</item>
+
+
+    </string-array>
+
+    <string-array name="admin">
+
+        <item>Admin</item>
+
+    </string-array>
+
+    <string-array name="hostel">
+        <item>Himadri</item>
+        <item>Kailash</item>
+        <item>Udaigiri</item>
+        <item>Girnar</item>
+        <item>Vindhyachal</item>
+        <item>Kumaon</item>
+        <item>Shivalik</item>
+        <item>Aravali</item>
+        <item>Jwalamukhi</item>
+        <item>Nilgiri</item>
+        <item>Satpura</item>
+        <item>Karakoram</item>
+        <item>Zanskar</item>
+    </string-array>
+
+
+    </resources>
