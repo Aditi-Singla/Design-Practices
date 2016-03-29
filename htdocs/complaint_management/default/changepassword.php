@@ -44,7 +44,7 @@ if (verify($inputarray))
 			$stmt2 = $conn->prepare($query2);
 			$stmt2->bind_param("ss",$newpassword,$username);
 			$stmt2->execute();
-			if ($stmt2->affected_rows)
+			if ($stmt2->affected_rows > 0)
 			{
 				$response["success"] = 1;
 				$response["message"] = "Password changed";
