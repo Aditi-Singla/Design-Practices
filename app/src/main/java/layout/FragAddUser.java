@@ -172,14 +172,25 @@ public class FragAddUser extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 EditText editText = (EditText) view.findViewById(R.id.usernameEdit);
                 username = editText.getText().toString().trim();
-
+                if(username!=null) {
+                    if(username.equals(""))
+                        username = null;
+                }
 
                 editText = (EditText) view.findViewById(R.id.nameEdit);
                 name = editText.getText().toString().trim();
+                if (name!=null) {
+                    if(name.equals(""))
+                        name = null;
+                }
 
 
                 editText = (EditText) view.findViewById(R.id.entryNumberEdit);
                 entryno = editText.getText().toString().trim();
+                if(entryno!=null) {
+                    if(entryno.equals(""))
+                        entryno = null;
+                }
 
                 final String n = name;
                 final String u = username;

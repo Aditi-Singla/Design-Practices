@@ -4,8 +4,19 @@ package layout;
  * Created by Aditi Singla on 27-Mar-16.
  */
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +35,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.dhairya.complaintsystem.LoginActivity;
+import com.example.dhairya.complaintsystem.MainActivity;
 import com.example.dhairya.complaintsystem.NoDefaultSpinner;
 import com.example.dhairya.complaintsystem.R;
 
@@ -37,6 +51,7 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
     String title = null;
     String desc = null;
     String type = null;
+
     View view;
     @Nullable
     @Override
@@ -45,7 +60,17 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
         view = inflater.inflate(R.layout.frag_write_complaint_layout,container,false);
         final NoDefaultSpinner spinner1 = (NoDefaultSpinner)view.findViewById(R.id.level);
         final NoDefaultSpinner spinner2 = (NoDefaultSpinner)view.findViewById(R.id.type);
-        final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity().getBaseContext(), R.array.level, android.R.layout.simple_spinner_item);
+        //String username = getArguments().getString("usertype");
+        String username = ((MainActivity) getActivity()).getMyData();
+        int x;
+        //x = R.array.level;
+        if (username.equals("Normal Student") || username.equals("Mess Secretary") || username.equals("Maintenance Secretary") || username.equals("Sports Secretary") || username.equals("House Secretary") || username.equals("Cultural Secretary")
+                || username.equals("BRCA General Secretary") || username.equals("BSA General Secretary") || username.equals("Hostel Warden")) {
+            x = R.array.level;
+        }
+        else
+            x = R.array.levelwithouthostel;
+        final ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(getActivity().getBaseContext(), x, android.R.layout.simple_spinner_item);
         adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner1.setAdapter(adapter1);
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -62,7 +87,7 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (parent.getItemAtPosition(position) != null)
-                                    type = level + parent.getItemAtPosition(position).toString();
+                                    type = level + " " + parent.getItemAtPosition(position).toString();
                             }
 
                             @Override
@@ -78,7 +103,7 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (parent.getItemAtPosition(position) != null)
-                                    type = level + parent.getItemAtPosition(position).toString();
+                                    type = level + " " + parent.getItemAtPosition(position).toString();
                             }
 
                             @Override
@@ -110,15 +135,30 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+//        @Override
+//        public void onBackPressed() {
+//            FragmentManager fm = getFragmentManager();
+//            FragmentTransaction ft = fm.beginTransaction();
+//            Fragment fragment = null;
+//            Class fragmentClass = null;
+//            fragmentClass = layout.FragAllComplaints.class;
+//            try {
+//                fragment = (Fragment) fragmentClass.newInstance();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            ft.replace(R.id.content_main,fragment);
+//            ft.commit();
+//        }
 
         Button button = (Button)view.findViewById(R.id.writeComplaint);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText et = (EditText)view.findViewById(R.id.tit);
+                EditText et = (EditText) view.findViewById(R.id.tit);
                 title = et.getText().toString().trim();
 
-                et = (EditText)view.findViewById(R.id.des);
+                et = (EditText) view.findViewById(R.id.des);
                 desc = et.getText().toString().trim();
 
                 final String ti = title;
@@ -140,24 +180,57 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                                 }
                                 try {
                                     if (response1.getInt("success") == 1) {
-                                        TextView tv = (TextView)view.findViewById(R.id.titleText);
-                                        tv.setText(response1.getString("message").toUpperCase()+"!");
-                                        tv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                        RelativeLayout.LayoutParams layoutparams = (RelativeLayout.LayoutParams)tv.getLayoutParams();
-                                        layoutparams.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                                        tv.setLayoutParams(layoutparams);
-                                        EditText et = (EditText)view.findViewById(R.id.tit);
-                                        et.setVisibility(View.GONE);
-                                        tv = (TextView)view.findViewById(R.id.descriptionText);
-                                        tv.setVisibility(View.GONE);
-                                        et = (EditText)view.findViewById(R.id.des);
-                                        et.setVisibility(View.GONE);
-                                        NoDefaultSpinner spinner = (NoDefaultSpinner)view.findViewById(R.id.level);
-                                        spinner.setVisibility(View.GONE);
-                                        spinner = (NoDefaultSpinner)view.findViewById(R.id.type);
-                                        spinner.setVisibility(View.GONE);
-                                        Button button = (Button)view.findViewById(R.id.writeComplaint);
-                                        button.setVisibility(View.GONE);
+                                        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                                        TextView title = new TextView(getContext());
+                                        // You Can Customise your Title here
+                                        title.setText("Message");
+                                        title.setBackgroundColor(Color.rgb(255, 153, 51));
+                                        title.setPadding(10, 15, 15, 10);
+                                        title.setGravity(Gravity.CENTER);
+                                        title.setTextColor(Color.WHITE);
+                                        title.setTextSize(22);
+                                        alert.setCustomTitle(title);
+                                        //alertDialog.setMessage(message);
+                                        alert.setMessage("Complaint filed successfully!");
+//                                        TextView messageText = (TextView)alert.findViewById(android.R.id.message);
+//                                        messageText.setGravity(Gravity.CENTER);
+                                        alert.setNegativeButton("Ok, Thanks!", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // TODO Auto-generated method stub
+                                                //Toast.makeText(getContext(),"OK",Toast.LENGTH_LONG).show();
+                                                FragmentManager fm = getFragmentManager();
+                                                FragmentTransaction ft = fm.beginTransaction();
+                                                Fragment fragment = null;
+                                                Class fragmentClass = null;
+                                                fragmentClass = layout.FragAllComplaints.class;
+                                                try {
+                                                    fragment = (Fragment) fragmentClass.newInstance();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                                ft.replace(R.id.content_main, fragment);
+                                                ft.commit();
+                                            }
+                                        });
+                                        alert.setPositiveButton("Write another!", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // TODO Auto-generated method stub
+                                                //Toast.makeText(getContext(),"OK",Toast.LENGTH_LONG).show();
+                                                FragmentManager fm = getFragmentManager();
+                                                FragmentTransaction ft = fm.beginTransaction();
+                                                Fragment fragment = null;
+                                                Class fragmentClass = null;
+                                                fragmentClass = layout.FragWriteComplaint.class;
+                                                try {
+                                                    fragment = (Fragment) fragmentClass.newInstance();
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                                ft.replace(R.id.content_main, fragment);
+                                                ft.commit();
+                                            }
+                                        });
+                                        alert.show();
                                     } else
                                         Toast.makeText(getActivity(), response1.getString("message"), Toast.LENGTH_LONG).show();
                                 } catch (JSONException e) {
@@ -175,14 +248,14 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<String, String>();
                         params.put("Content-Type", "application/x-www-form-urlencoded");
-                        if(ti!=null)
+                        if (ti != null)
                             params.put("title", ti);
-                        if(ty!=null)
+                        if (ty != null)
                             params.put("type", ty);
-                        if(l!=null)
+                        if (l != null)
                             params.put("level", l);
-                        if(d!=null)
-                            params.put("description",d);
+                        if (d != null)
+                            params.put("description", d);
 
                         return params;
                     }

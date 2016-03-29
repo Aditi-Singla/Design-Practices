@@ -9,7 +9,11 @@
     </shape>
     </item>
 
-    <item android:right="10dp">
+    <item android:right="10dp" >
         <bitmap android:src="@drawable/triangle" android:gravity="center_vertical|right"/>
     </item>
+
+
+
+
 </layer-list>

@@ -36,11 +36,12 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     String name;
     int specialuser = 0; // 1 for specialuser
+    String userType;
     TextView headerName;
     TextView viewProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String userType = getIntent().getStringExtra("usertype");
+        userType = getIntent().getStringExtra("usertype");
         name = getIntent().getStringExtra("name");
 
         super.onCreate(savedInstanceState);
@@ -144,7 +145,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
-
+    public String getMyData() {
+        return userType;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         headerName = (TextView)findViewById(R.id.header_name);
@@ -187,7 +190,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        if (item.getTitle()=="Logout") {
+        Fragment fragment = null;
+        Class fragmentClass =null;
+        if (item.getTitle()=="Write Complaint") {
+            fragmentClass = layout.FragWriteComplaint.class;
+            //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
+        } else if (item.getTitle()=="All Complaints") {
+            fragmentClass = layout.FragAllComplaints.class;
+            //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
+        } else if (item.getTitle()=="Notifications") {
+            fragmentClass = layout.FragNotifications.class;
+            //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
+        } else if (item.getTitle()=="Add User") {
+            fragmentClass = layout.FragAddUser.class;
+            //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
+        } else if (item.getTitle()=="Logout") {
+            fragmentClass = layout.FragLogout.class;
             //Toast.makeText(MainActivity.this,"Logout", Toast.LENGTH_LONG).show();
             //public void login(View v){
             //  final String usrnm = Username.getText().toString().trim();
@@ -212,35 +230,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(jsObjRequest);
-        }else {
-            Fragment fragment = null;
-            Class fragmentClass = null;
-            if (item.getTitle() == "Write Complaint") {
-                fragmentClass = layout.FragWriteComplaint.class;
-                //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
-            } else if (item.getTitle() == "All Complaints") {
-                fragmentClass = layout.FragAllComplaints.class;
-                //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
-            } else if (item.getTitle() == "Notifications") {
-                fragmentClass = layout.FragNotifications.class;
-                //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
-            } else if (item.getTitle() == "Add User") {
-                fragmentClass = layout.FragAddUser.class;
-                //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
-            }
-            try {
-                fragment = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-
-            // Set action bar title
-            setTitle(item.getTitle());
         }
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+
+        // Set action bar title
+        setTitle(item.getTitle());
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

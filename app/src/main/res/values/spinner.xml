@@ -59,6 +59,11 @@
         <item>Hostel</item>
         <item>Institute</item>
     </string-array>
+
+    <string-array name="levelwithouthostel">
+        <item>Individual</item>
+        <item>Institute</item>
+    </string-array>
     
     <string-array name="IndividualTypes">
         <item>Academics</item>
