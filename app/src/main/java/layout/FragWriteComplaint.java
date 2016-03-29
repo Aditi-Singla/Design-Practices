@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +53,7 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
     String title = null;
     String desc = null;
     String type = null;
+    String tags = null;
 
     View view;
     @Nullable
@@ -151,6 +154,27 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
 //            ft.commit();
 //        }
 
+        final EditText editText = (EditText)view.findViewById(R.id.tagsEdit);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString();
+                if(text.charAt(text.length()-1)==' '){
+                    editText.setText(text+"#");
+                }
+            }
+        });
+
         Button button = (Button)view.findViewById(R.id.writeComplaint);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,10 +185,18 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                 et = (EditText) view.findViewById(R.id.des);
                 desc = et.getText().toString().trim();
 
+                et = (EditText) view.findViewById(R.id.tagsEdit);
+                tags = et.getText().toString().trim();
+                if(tags==null)
+                    tags = "";
+                else if(tags.charAt(tags.length()-1)=='#')
+                    tags = tags.substring(0,tags.length()-2);
+
                 final String ti = title;
                 final String ty = type;
                 final String d = desc;
                 final String l = level;
+                final String t = tags;
 
                 String URL = "http://10.192.58.152:80/complaint_management/complaint/submitcomplaint.php";
 
@@ -191,10 +223,10 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                                         title.setTextSize(22);
                                         alert.setCustomTitle(title);
                                         //alertDialog.setMessage(message);
-                                        alert.setMessage("Complaint filed successfully!");
+                                        alert.setMessage("           Complaint filed successfully!");
 //                                        TextView messageText = (TextView)alert.findViewById(android.R.id.message);
 //                                        messageText.setGravity(Gravity.CENTER);
-                                        alert.setNegativeButton("Ok, Thanks!", new DialogInterface.OnClickListener() {
+                                        alert.setNeutralButton("Ok, Thanks!", new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // TODO Auto-generated method stub
                                                 //Toast.makeText(getContext(),"OK",Toast.LENGTH_LONG).show();
@@ -256,6 +288,7 @@ public class FragWriteComplaint extends android.support.v4.app.Fragment {
                             params.put("level", l);
                         if (d != null)
                             params.put("description", d);
+                        params.put("tags",t);
 
                         return params;
                     }

@@ -124,8 +124,8 @@ public class FragInstituteComplaints extends Fragment {
                                 }
                                 comp = recycler_complaints.createComplaints(titles, types, createdAts, createdBys, ids);
                                 InstituteComplaintsAdapter adapter = new InstituteComplaintsAdapter(comp,getContext());
-                                rvComplaint.setAdapter(adapter);
-                                rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    rvComplaint.setAdapter(adapter);
                             } }else
                                 Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
@@ -215,8 +215,8 @@ public class FragInstituteComplaints extends Fragment {
                                             }
                                             comp = recycler_complaints.createComplaints(titles, types, createdAts, createdBys, ids);
                                             InstituteComplaintsAdapter adapter = new InstituteComplaintsAdapter(comp,getContext());
-                                            rvComplaint.setAdapter(adapter);
-                                            rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setAdapter(adapter);
                                         } }else
                                             Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
                                     } catch (JSONException e) {
@@ -300,8 +300,8 @@ public class FragInstituteComplaints extends Fragment {
                                             }
                                             comp = recycler_complaints.createComplaints(titles, types, createdAts, createdBys, ids);
                                             InstituteComplaintsAdapter adapter = new InstituteComplaintsAdapter(comp,getContext());
-                                            rvComplaint.setAdapter(adapter);
-                                            rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setAdapter(adapter);
                                         } }else
                                             Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
                                     } catch (JSONException e) {
@@ -394,8 +394,8 @@ public class FragInstituteComplaints extends Fragment {
                                             }
                                             comp = recycler_complaints.createComplaints(titles, types, createdAts, createdBys, ids);
                                             InstituteComplaintsAdapter adapter = new InstituteComplaintsAdapter(comp,getContext());
-                                            rvComplaint.setAdapter(adapter);
-                                            rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                                rvComplaint.setAdapter(adapter);
                                         } }else
                                             Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
                                     } catch (JSONException e) {
@@ -430,7 +430,89 @@ public class FragInstituteComplaints extends Fragment {
     }
 
     public void search(){
-        Toast.makeText(getActivity(),"Searching",Toast.LENGTH_SHORT).show();
+        final String text = ((EditText)view.findViewById(R.id.search)).getText().toString().trim();
+        final RecyclerView rvComplaint = (RecyclerView)view.findViewById(R.id.viewInstituteComplaints);
+        String URL = "http://10.192.58.152:80/complaint_management/complaint/search.php";
+
+
+        StringRequest jsObjRequest = new StringRequest(Request.Method.POST, URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject response1 = null;
+                        try {
+                            response1 = new JSONObject(response);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            if (response1.getInt("success") == 1) {
+                                JSONArray jsonArray = response1.getJSONArray("allcomplaints");
+                                if(jsonArray.length()==0) {
+                                    EditText et = (EditText)view.findViewById(R.id.search);
+                                    et.setVisibility(View.GONE);
+                                    Button b = (Button)view.findViewById(R.id.dateSort);
+                                    b.setVisibility(View.GONE);
+                                    b = (Button)view.findViewById(R.id.votesSort);
+                                    b.setVisibility(View.GONE);
+                                    rvComplaint.setVisibility(View.GONE);
+                                    TextView t = (TextView)view.findViewById(R.id.sortByText);
+                                    t.setText("No Complaints Available For This Level!");
+                                }
+                                else{ArrayList<String> titles = new ArrayList<>();
+                                    ArrayList<String> types = new ArrayList<>();
+                                    ArrayList<String> createdAts = new ArrayList<>();
+                                    ArrayList<String> createdBys = new ArrayList<>();
+                                    ArrayList<Integer> ids = new ArrayList<>();
+                                    String temp;
+                                    int x;
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        try{
+                                            JSONObject obj = jsonArray.getJSONObject(i);
+                                            temp = obj.getString("title");
+                                            titles.add(temp);
+                                            temp = obj.getString("type");
+                                            types.add(temp);
+                                            temp = obj.getString("createdat");
+                                            createdAts.add(temp);
+                                            temp = obj.getString("createdby");
+                                            createdBys.add(temp);
+                                            x = obj.getInt("complaint_id");
+                                            ids.add(x);
+                                        }catch (JSONException exe){exe.printStackTrace();}
+
+                                    }
+                                    comp = recycler_complaints.createComplaints(titles, types, createdAts, createdBys, ids);
+                                    InstituteComplaintsAdapter adapter = new InstituteComplaintsAdapter(comp,getContext());
+                                    rvComplaint.setLayoutManager(new LinearLayoutManager(getContext()));
+                                    rvComplaint.setAdapter(adapter);
+                                } }else
+                                Toast.makeText(getActivity(), "Error", Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("level","Institute");
+                params.put("input",text);
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(jsObjRequest);
+
     }
 
     class InstituteComplaintsAdapter extends RecyclerView.Adapter<ViewHolderIndi>

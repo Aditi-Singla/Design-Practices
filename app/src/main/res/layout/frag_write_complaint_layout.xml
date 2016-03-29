@@ -91,7 +91,7 @@
             android:textSize="16sp"
             android:textCursorDrawable="@null"
             android:textColor="#000000"
-            android:inputType="textNoSuggestions|textMultiLine"
+            android:inputType="textNoSuggestions|textMultiLine|textCapSentences"
             android:background="@drawable/edittext_bg"
             android:singleLine="false">
         </EditText>
@@ -99,9 +99,39 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Tags"
+            android:id="@+id/tagsText"
+            android:layout_below="@+id/des"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/tagsEdit"
+            android:layout_below="@+id/tagsText"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="top"
+            android:textSize="16sp"
+            android:textCursorDrawable="@null"
+            android:text="#"
+            android:textColor="#000000"
+            android:inputType="textNoSuggestions|textMultiLine|textCapSentences"
+            android:background="@drawable/edittext_bg"
+            android:singleLine="false"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="*mandatory fields"
             android:id="@+id/asterisk"
-            android:layout_below="@+id/des"
+            android:layout_below="@+id/tagsEdit"
             android:layout_marginTop="30dp"
             android:textSize="12sp"
             android:textColor="#000000"

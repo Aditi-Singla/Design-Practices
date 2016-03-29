@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ComplaintSystem</string>
+    <string name="app_name">IIT-D Complaint System</string>
     <string name="Prompt">Category</string>
     <string name="category">Category*</string>
     <string name="usertype">User Type*</string>
