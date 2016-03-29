@@ -71,8 +71,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Menu m = navView.getMenu();
             m.add("Add User");
             m.getItem(0).setIcon(R.drawable.ic_add_user_black);
+            m.add("Change Password");
+            m.getItem(1).setIcon(R.drawable.ic_change_password);
             m.add("Logout");
-            m.getItem(1).setIcon(R.drawable.ic_logout_black);
+            m.getItem(2).setIcon(R.drawable.ic_logout_black);
         }
         else if (specialuser==1) {
             setTitle("All Complaints");
@@ -98,8 +100,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             m.getItem(2).setIcon(R.drawable.ic_notifications_black);
             m.add("Add User");
             m.getItem(3).setIcon(R.drawable.ic_add_user_black);
+            m.add("Change Password");
+            m.getItem(4).setIcon(R.drawable.ic_change_password);
             m.add("Logout");
-            m.getItem(4).setIcon(R.drawable.ic_logout_black);
+            m.getItem(5).setIcon(R.drawable.ic_logout_black);
         }
         else{
             setTitle("All Complaints");
@@ -123,8 +127,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             m.getItem(1).setIcon(R.drawable.ic_all_black);
             m.add("Notifications");
             m.getItem(2).setIcon(R.drawable.ic_notifications_black);
+            m.add("Change Password");
+            m.getItem(3).setIcon(R.drawable.ic_change_password);
             m.add("Logout");
-            m.getItem(3).setIcon(R.drawable.ic_logout_black);
+            m.getItem(4).setIcon(R.drawable.ic_logout_black);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -158,27 +164,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
 //        }
 //        try{
-        viewProfile.setText("View Profile");
-        viewProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = null;
-                Class fragmentClass = null;
-                fragmentClass = layout.FragMyAccount.class;
-                try {
-                    fragment = (Fragment) fragmentClass.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                // Insert the fragment by replacing any existing fragment
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-                // Set action bar title
-                setTitle(name);
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
-            }
-        });
+        viewProfile.setText(userType);
+
 //        }
 //        catch(Exception e){
 //            Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
@@ -190,22 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        Fragment fragment = null;
-        Class fragmentClass =null;
-        if (item.getTitle()=="Write Complaint") {
-            fragmentClass = layout.FragWriteComplaint.class;
-            //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="All Complaints") {
-            fragmentClass = layout.FragAllComplaints.class;
-            //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Notifications") {
-            fragmentClass = layout.FragNotifications.class;
-            //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Add User") {
-            fragmentClass = layout.FragAddUser.class;
-            //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
-        } else if (item.getTitle()=="Logout") {
-            fragmentClass = layout.FragLogout.class;
+        if (item.getTitle() == "Logout") {
+            //fragmentClass = layout.FragLogout.class;
             //Toast.makeText(MainActivity.this,"Logout", Toast.LENGTH_LONG).show();
             //public void login(View v){
             //  final String usrnm = Username.getText().toString().trim();
@@ -230,24 +203,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(jsObjRequest);
+        } else {
+            Fragment fragment = null;
+            Class fragmentClass = null;
+            if (item.getTitle() == "Write Complaint") {
+                fragmentClass = layout.FragWriteComplaint.class;
+                //Toast.makeText(MainActivity.this, "Write Complaint", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "All Complaints") {
+                fragmentClass = layout.FragAllComplaints.class;
+                //Toast.makeText(MainActivity.this, "All Complaints", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "Notifications") {
+                fragmentClass = layout.FragNotifications.class;
+                //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "Change Password") {
+                fragmentClass = layout.FragChangePassword.class;
+                //Toast.makeText(MainActivity.this,"Notifications", Toast.LENGTH_LONG).show();
+            } else if (item.getTitle() == "Add User") {
+                fragmentClass = layout.FragAddUser.class;
+                //Toast.makeText(MainActivity.this, "Add User", Toast.LENGTH_LONG).show();
+            }
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Insert the fragment by replacing any existing fragment
+            if (fragment==null)
+                Toast.makeText(this,"Error",Toast.LENGTH_LONG).show();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
+
+            // Set action bar title
+            setTitle(item.getTitle());
         }
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
         }
-
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_main, fragment).commit();
-
-        // Set action bar title
-        setTitle(item.getTitle());
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
 
 }
