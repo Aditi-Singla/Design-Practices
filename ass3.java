@@ -7,13 +7,14 @@ public class ass3 {
    
    public static void main(String[] args) {
       JFrame frame = new JFrame();
-      JLayeredPane lpane = new JLayeredPane();
+      JLayeredPane lpane = new JLayeredPane();                    //using JLayeredPane for multiple planes
       frame.setTitle("Ping Pong - 2014CS10217_2014CS10253_2014CS50277");
       
       frame.setLayout(new BorderLayout());
-      paddle paddle1 = new paddle();
-      board gameboard = new board();
+      movingObjects ball_paddles = new movingObjects();
       
+      board gameboard = new board();
+      /*Setting exit on close action*/
       frame.addWindowListener(new WindowAdapter() {
          public void windowClosing(WindowEvent e) {
             System.exit(0);
@@ -24,14 +25,19 @@ public class ass3 {
    
       contentPane.add(lpane,BorderLayout.CENTER);
       gameboard.setBounds(0,0,2100,1050);
-      paddle1.setBounds(0,0,2100,1050);
-      paddle1.setOpaque(false);
-      lpane.add(gameboard, new Integer(0), 0);
+      
+      ball_paddles.setBounds(0,0,2100,1050);
+      ball_paddles.setOpaque(false);
 
-      lpane.add(paddle1, new Integer(1), 0);
+      
+      /*Adding paddle, lives, board and ball to the frame*/
+      lpane.add(gameboard, new Integer(0), 0);
+      lpane.add(ball_paddles,new Integer(1), 0);
+      
         
       frame.setVisible(true);
       frame.setSize(2100,1050);
+
       
    }
 }
