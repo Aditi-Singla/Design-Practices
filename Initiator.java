@@ -1,26 +1,51 @@
 import java.net.*;
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class Initiator
 {
 	ServerSocket serverSocket;
 	int port = 8000;
+	ArrayList<PrintWriter> allOutputStreams = new ArrayList<PrintWriter>();
+	ArrayList<String> addresses = new ArrayList<String>();
+	ArrayList<Socket> clients = new ArrayList<Socket>();
+	ArrayList<Initiated> initiateds = new ArrayList<Initiated>();
+	int numPlayers;
+	int playerNumber = 1;
 
-	public Initiator(int port)
+	public Initiator(int port, int numPlayers)
 	{
 		this.port = port;
+		this.numPlayers = numPlayers;
 		try
 		{
 			serverSocket = new ServerSocket(port);
 			System.out.println ("Chat initiating.");
-
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 			try
 			{
 				while (true)
 				{
+					if (playerNumber==numPlayers)
+					{
+						for (int i=0;i<initiateds.size();i++)
+							initiateds.get(i).start();
+						break;
+					}
 					System.out.println ("Waiting for connections");
-					new Initiated(serverSocket.accept());
+					Socket client = serverSocket.accept();		/////////// accepted client
+					clients.add(client);				///////////// client added to clients list
+
+					playerNumber++;						///////////// player number updated for client 
+					String address = client.getInetAddress().getHostName().toString();
+					addresses.add(address);				///////////// address of client added to address list
+
+					Initiated started = new Initiated(client,stdIn); ///////communication thread of player 1 and recently added player
+					initiateds.add(started);
+
+					// started.start();
+					// for (int i=0;i<initiateds.size();i++)
+					// 	initiateds.get(i).updatenum(playerNumber);
 				}
 			}
 			catch (IOException e)
@@ -46,97 +71,100 @@ public class Initiator
 	}
 
 
-	private class Initiated extends Thread
+	public class Initiated extends Thread
 	{
 		private Socket clientSocket;
+		private BufferedReader stdIn;
 
-		public Initiated(Socket client)
+		public Initiated(Socket client, BufferedReader stdIn)
 		{
 			clientSocket = client;
-			start();
+			this.stdIn = stdIn;
+			try
+			{
+				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
+				allOutputStreams.add(out);
+			} catch (IOException e) {e.printStackTrace();}			
 		}
+
 
 		public void run()
 		{
 			System.out.println ("New communication thread started.");
+			ObjectOutputStream objectOutput,objectOutput2,objectOutput3,objectOutput4;
+			objectOutput = null; objectOutput2=null; objectOutput3=null; objectOutput4 = null;
 			try
 			{
-				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
-				//InputStreamReader inputstream = new InputStreamReader(System.in);
-				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				//send address list to every client along
+				if (numPlayers==2)
+				{
+					objectOutput = new ObjectOutputStream(clientSocket.getOutputStream());
+					playerClass obj = new playerClass(2,2,"");
+					objectOutput.writeObject(obj);	
+					// objectOutput.flush(); objectOutput.close();
+				}
+				else if (numPlayers==3)
+				{
+					if (clientSocket == clients.get(0))
+					{
+						objectOutput2 = new ObjectOutputStream(clients.get(0).getOutputStream());
+						playerClass obj = new playerClass(2,3,"");
+						objectOutput2.writeObject(obj);
+						// objectOutput2.flush(); objectOutput2.close();
+					}
+					else
+					{
+						objectOutput3 = new ObjectOutputStream(clients.get(1).getOutputStream());
+						playerClass obj1 = new playerClass(3,3,addresses.get(0));
+						objectOutput3.writeObject(obj1);
+						// objectOutput3.flush(); objectOutput3.close();
+					}
+				}
+				else if (numPlayers==4) 
+				{
+					if (clientSocket == clients.get(0))
+					{
+						objectOutput2 = new ObjectOutputStream(clients.get(0).getOutputStream());
+						playerClass obj = new playerClass(2,4,addresses.get(2));
+						objectOutput2.writeObject(obj);
+						// objectOutput2.flush(); objectOutput2.close();
+					}
+					else if (clientSocket == clients.get(1))
+					{
+						objectOutput3 = new ObjectOutputStream(clients.get(1).getOutputStream());
+						playerClass obj1 = new playerClass(3,4,addresses.get(0));
+						objectOutput3.writeObject(obj1);
+						// objectOutput3.flush(); objectOutput3.close();
+					}	
+					else
+					{
+						objectOutput4 = new ObjectOutputStream(clients.get(2).getOutputStream());
+						playerClass obj2 = new playerClass(4,4,addresses.get(1));
+						objectOutput4.writeObject(obj2);
+						// objectOutput4.flush(); objectOutput4.close();
+					}	
+				}
+				else
+				{
+					System.out.println("Number of players exceeded");
+					System.exit(1);
+				}
 
-				BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-				String input;
+				try
+				{	
+					BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+					new receive(in);
+					new sendToAll(stdIn,allOutputStreams);	
+				}
+				catch (IOException exx)
+				{
+					System.err.println("Some problem");
+					exx.printStackTrace();
+				}
 
-				String inputline;
 
-
-				new receive(in);
-				new send(stdIn,out);
-				// while ((inputline = in.readLine()) != null || stdIn.readLine()!=null)
-				// {
-				// 	System.out.println("Them: " + inputline);
-				// 	// if ((System.in).available()!=0)
-				// 		out.println(stdIn.readLine());
-				// }
-
-				// while ((input = stdIn.readLine()) != null)
-				// {
-				// 	out.println(input);
-				// }
-			}
-			catch (IOException exx)
-			{
-				System.err.println("Some problem");
-				System.exit(1);
-			}
-		}
-	}
-		private class receive extends Thread
-	{
-		BufferedReader in;
-		public receive (BufferedReader in)
-		{
-			this.in = in;
-			start();
-		}
-
-		public void run()
-		{
-			String input;
-			try{
-				while ((input = in.readLine()) != null)
-			{
-				System.out.println("Them: " + input);
-			}
-
-			} catch (IOException e) {System.err.println("errrrrr");System.exit(1);}
-			
-		}
-	}
-
-	private class send extends Thread
-	{
-		BufferedReader stdIn;
-		PrintWriter out;
-		public send (BufferedReader stdIn, PrintWriter out)
-		{
-			this.stdIn = stdIn;
-			this.out = out;
-			start();
-		}
-
-		public void run()
-		{
-			String input;
-			try{
-				while ((input = stdIn.readLine()) != null)
-			{
-				out.println(input);
-			}
-
-			} catch (IOException e) {System.err.println("errrrrr");System.exit(1);}
-			
+			} catch (IOException k) {System.out.println("Error here");k.printStackTrace();}
+				
 		}
 	}
 }

@@ -14,7 +14,9 @@ public class Play
 		port = scan.nextInt();
 		if (response.toLowerCase().equals("yes"))
 		{
-			Initiator initiator = new Initiator(port);
+			System.out.print("Enter the number of players: ");
+			int numPlayers = scan.nextInt();
+			Initiator initiator = new Initiator(port,numPlayers);
 		}
 		else
 		{

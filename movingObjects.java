@@ -91,6 +91,7 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       int x_sign = (ball1.velx > 0) ? 1:-1;
       int y_sign = (ball1.vely > 0) ? 1:-1;
       double angle = Math.abs(Math.atan(ball1.vely/ball1.velx));      /*Corner cases*/
+      
       if(ball1.x <= (w + 25) && ball1.y <= (h + 25)) {                            //top left corner
          if(y_sign < 0 && x_sign < 0) {
             ball1.velx = 13 * Math.cos(angle + Math.toRadians(15));
