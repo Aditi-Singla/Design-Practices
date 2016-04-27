@@ -11,9 +11,9 @@ public class ass3 {
       frame.setTitle("Ping Pong - 2014CS10217_2014CS10253_2014CS50277");
       
       frame.setLayout(new BorderLayout());
-      movingObjects ball_paddles = new movingObjects();
-      
-      board gameboard = new board();
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      movingObjects ball_paddles = new movingObjects((screenSize.width-600)/2,(screenSize.height-600)/2);
+      board gameboard = new board(screenSize.width,screenSize.height);
       /*Setting exit on close action*/
       frame.addWindowListener(new WindowAdapter() {
          public void windowClosing(WindowEvent e) {
@@ -22,11 +22,11 @@ public class ass3 {
       });
       
       Container contentPane = frame.getContentPane();
-   
+           
       contentPane.add(lpane,BorderLayout.CENTER);
-      gameboard.setBounds(0,0,2100,1050);
+      gameboard.setBounds(0,0,screenSize.width,screenSize.height);
       
-      ball_paddles.setBounds(0,0,2100,1050);
+      ball_paddles.setBounds(0,0,screenSize.width,screenSize.height);
       ball_paddles.setOpaque(false);
 
       
@@ -36,8 +36,6 @@ public class ass3 {
       
         
       frame.setVisible(true);
-      frame.setSize(2100,1050);
-
-      
+      frame.setSize(screenSize.width,screenSize.height);
    }
 }

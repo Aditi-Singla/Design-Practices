@@ -5,8 +5,12 @@ import java.awt.event.*;
 
 public class ball extends JPanel  {
 	
-	double x = 1035,y = 510,velx = -13 + 26 * Math.random(),vely = ((2 * (int)(2 * Math.random()))-1) * Math.sqrt(169 - velx * velx);
 
+	double x ,y ,velx = -8 + 16 * Math.random(),vely = ((2 * (int)(2 * Math.random()))-1) * Math.sqrt(64 - velx * velx);
+	public ball(int w, int h) {
+		x = w*1.0 + 285;
+		y = h*1.0 + 285;
+	}
 	
 	public void paintComponent(Graphics g1) {
 		super.paintComponent(g1);

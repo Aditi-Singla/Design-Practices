@@ -5,11 +5,13 @@ import java.awt.event.*;
 
 public class paddle_v extends JPanel {
 	
-	double y = 250 + 450 * 0.5,vel = 0,acc = 0,x;
+	int height;
+	double y,vel = 0,acc = 0,x;
 
-	public paddle_v(double width) {
+	public paddle_v(double width,int h) {
 		x = width;
-		
+		height = h;
+		y = (height + 25) + 450 * 0.5;
 	}
 
 
@@ -35,10 +37,10 @@ public class paddle_v extends JPanel {
 	public void move() {
 		repaint();
 		y += (vel + acc);
-		if (y < 250 )
-			y = 250;
-		else if (y > 700)
-			y = 700;
+		if (y < (height + 25) )
+			y = (height + 25);
+		else if (y > (height + 475))
+			y = (height + 475);
 	}
 
 

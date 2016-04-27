@@ -7,8 +7,10 @@ public class lives extends JPanel{
       int miss[];
       Graphics2D g;
       
-
-      public lives() {
+      int w,h;
+      public lives(int width,int height) {
+            w = width;
+            h = height;
             miss = new int[4];
             miss[0] = 0;                  //top
             miss[1] = 0;                  //right
@@ -35,9 +37,9 @@ public class lives extends JPanel{
 
 	      //fourth circle - r = 30
 	      g.setColor(Color.BLACK);
-	      g.draw(new Ellipse2D.Double(1020, 495, 60, 60));     
+	      g.draw(new Ellipse2D.Double((w+270), (h+270), 60, 60));     
 	      g.setColor(new Color(51,102,153));
-	      g.fill(new Ellipse2D.Double(1020, 495, 60, 60));    
+	      g.fill(new Ellipse2D.Double((w+270), (h+270), 60, 60));    
 
       }
 
@@ -58,67 +60,67 @@ public class lives extends JPanel{
             switch(n) {
                   case 0:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               break;
                   case 1:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               break;
                   case 2:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               break;
                   case 3:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 45, 90, Arc2D.PIE));     //top
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 45, 90, Arc2D.PIE));     //top
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 45, 90, Arc2D.PIE));     //top
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 45, 90, Arc2D.PIE));     //top
                               break;
                   default:    top(3);
             }
@@ -130,67 +132,67 @@ public class lives extends JPanel{
             switch(n) {
                   case 0:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               break;
                   case 1:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               break;
                   case 2:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               break;
                   case 3:    //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -45, 90, Arc2D.PIE));     //right
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -45, 90, Arc2D.PIE));     //right
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -45, 90, Arc2D.PIE));     //right
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -45, 90, Arc2D.PIE));     //right
                               break;
                   default:    right(3);
             }
@@ -202,67 +204,67 @@ public class lives extends JPanel{
             switch(n) {
                   case 0:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               break;
                   case 1:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               break;
                   case 2:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               break;
                   case 3:    //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, -135, 90, Arc2D.PIE));     //bottom
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, -135, 90, Arc2D.PIE));     //bottom
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, -135, 90, Arc2D.PIE));     //bottom
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, -135, 90, Arc2D.PIE));     //bottom
                               break;
                   default:    bottom(3);
             }
@@ -274,67 +276,67 @@ public class lives extends JPanel{
             switch(n) {
                   case 0:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               break;
                   case 1:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               break;
                   case 2:     //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,230,179));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               break;
                   case 3:    //outer circle - r = 75
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(975, 450, 150, 150, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+225), (h+225), 150, 150, 135, 90, Arc2D.PIE));     //left
                               //second circle - r = 60
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(990, 465, 120, 120, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+240), (h+240), 120, 120, 135, 90, Arc2D.PIE));     //left
                               //third circle - r = 45
                               g.setColor(Color.BLACK);
-                              g.draw(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.draw(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               g.setColor(new Color(255,0,0));
-                              g.fill(new Arc2D.Double(1005, 480, 90, 90, 135, 90, Arc2D.PIE));     //left
+                              g.fill(new Arc2D.Double((w+255), (h+255), 90, 90, 135, 90, Arc2D.PIE));     //left
                               break;
                   default:    left(3);
             }

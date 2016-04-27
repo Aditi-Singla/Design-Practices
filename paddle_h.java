@@ -4,11 +4,14 @@ import java.awt.geom.*;
 import java.awt.event.*;
 
 public class paddle_h extends JPanel {
-	double x = 775 + 450 * 0.5,vel = 0,acc = 0,y;
 
-	public paddle_h(double height) {
+	int width;
+	double x ,vel = 0,acc = 0,y;
+
+	public paddle_h(double height,int w) {
 		y = height;
-		
+		width = w;
+		x = width + 25 + 450 * 0.5;
 	}
 
 
@@ -34,12 +37,9 @@ public class paddle_h extends JPanel {
 	public void move() {
 		repaint();
 		x += (vel + acc);
-		if (x < 775 )
-			x = 775;
-		else if (x > 1225)
-			x = 1225;
+		if (x < (width + 25) )
+			x = (width + 25);
+		else if (x > (width + 475))
+			x = (width + 475);
 	}
-
-
-	
 }
