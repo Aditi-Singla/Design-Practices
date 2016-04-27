@@ -20,8 +20,7 @@ public class Initiator
 		try
 		{
 			serverSocket = new ServerSocket(port);
-			System.out.println ("Chat initiating.");
-			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));	//////STDIN : takes input
 			try
 			{
 				while (true)
@@ -29,10 +28,9 @@ public class Initiator
 					if (playerNumber==numPlayers)
 					{
 						for (int i=0;i<initiateds.size();i++)
-							initiateds.get(i).start();
+							initiateds.get(i).start();			///Starting the threads for players in order 2 to 4
 						break;
 					}
-					System.out.println ("Waiting for connections");
 					Socket client = serverSocket.accept();		/////////// accepted client
 					clients.add(client);				///////////// client added to clients list
 
@@ -90,9 +88,9 @@ public class Initiator
 
 		public void run()
 		{
-			System.out.println ("New communication thread started.");
 			ObjectOutputStream objectOutput,objectOutput2,objectOutput3,objectOutput4;
 			objectOutput = null; objectOutput2=null; objectOutput3=null; objectOutput4 = null;
+			/////Sending object to each player which contains their playernumber, total number of players and the address to which it has to be connected
 			try
 			{
 				//send address list to every client along
@@ -152,9 +150,10 @@ public class Initiator
 
 				try
 				{	
+					////Inputstream to receive from the client
 					BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 					new receive(in);
-					new sendToAll(stdIn,allOutputStreams);	
+					new sendToAll(stdIn,allOutputStreams);		////Outputstream to send data to every other player
 				}
 				catch (IOException exx)
 				{

@@ -13,7 +13,6 @@ public class Player extends Thread
 	{
 		this.hostname = hostname;
 		this.port = port;
-		// System.out.println("Attempting to connect to host " + hostname + " on port " + port);
 	}
 
 	@Override
@@ -21,7 +20,7 @@ public class Player extends Thread
 	{
 		try
 		{
-			Socket s = new Socket(hostname,port);	
+			Socket s = new Socket(hostname,port);	///Connects to the initiator
 			try
 			{
 				ObjectInputStream objInp = new ObjectInputStream(s.getInputStream());
@@ -32,154 +31,136 @@ public class Player extends Thread
 					playerNumber = playerData.playerNumber;
 					total = playerData.total;
 					address = playerData.address;
-					// System.out.println(playerNumber + " hjhghjghjg " + total + " jkdsfjksjd " + address);
-					// objInp.close();
+					///////////Received playernumber, total number of players, and address to connect to
 
-					BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-					PrintWriter outSERVER = new PrintWriter(s.getOutputStream(),true);
+					BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in)); ///// INPUT TO FEED
+					
 					BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-					new receive(inSERVER);
+					new receive(inSERVER); //////Received game data from PLAYER 1
 
-					if (total==2 && playerNumber==2)
+					PrintWriter outSERVER = new PrintWriter(s.getOutputStream(),true);
+
+					if (total==2 && playerNumber==2) /////  2 player game
 					{
-						new send(stdIn,outSERVER);
+						new send(stdIn,outSERVER);	///Sending game data to PLAYER 1
 					}
 
-					else if (total==3)
+					else if (total==3)		///   3 player game
 					{
-						if (playerNumber==2)
+						if (playerNumber==2)		/// PLAYER 2
 						{
 							try
 							{
 								ServerSocket s2for3 = new ServerSocket(8232);
-								System.out.println("Waiting for player 3");
 								Socket client3 = s2for3.accept();
 								BufferedReader in3 = new BufferedReader (new InputStreamReader(client3.getInputStream()));
-								new receive(in3);
+								new receive(in3);		//// Received game data from PLAYER 3
 
 								PrintWriter out3 = new PrintWriter(client3.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
 								outs.add(outSERVER); outs.add(out3);
-								new sendToAll(stdIn,outs);
+								new sendToAll(stdIn,outs);	///// Sending game data to PLAYER 1 & 3
 							} catch(IOException e){e.printStackTrace();}
 						}
-						else if (playerNumber==3)
+						else if (playerNumber==3)		////PLAYER 3
 						{
 							try
 							{
 								Socket s3to2 = new Socket(address,8232);
 								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2);
+								new receive (in2);		////Received game data from PLAYER 2
 				
 								PrintWriter out2 = new PrintWriter(s3to2.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
 								outs.add(outSERVER); outs.add(out2);
-								new sendToAll(stdIn,outs);
+								new sendToAll(stdIn,outs);	/////Sending game data to PLAYER 1 & 2
 							} catch(IOException e){e.printStackTrace();}
 						}
 						else
 						{System.out.println("Invalid Input");System.exit(1);}
 					}
 
-					else if (total==4)
+					else if (total==4)		//// 4 player game
 					{
-						// System.out.println("I AM " + playerNumber);
-						if (playerNumber==2)
+						if (playerNumber==2)	///   PLAYER 2
 						{
-							System.out.println("I AM 222222222");
 							try
 							{
-								setPrivateServer serverFor2 = new setPrivateServer(8232,stdIn);
-								serverFor2.start();
-								Date date = new Date();
-								// System.out.println("server for 2 started " );
-
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
+								setPrivateServer serverFor2 = new setPrivateServer(8232,stdIn);
+								serverFor2.start();		////  Server created for 3 and received data 
 
-								System.out.println(address);
+								try{sleep(100);}catch(Exception e){}
+
 								Socket s2to4 = new Socket(address,8712);
-								System.out.println("connected to 4");
+								
 								BufferedReader in4 = new BufferedReader(new InputStreamReader(s2to4.getInputStream()));
-								new receive (in4);
+								new receive (in4);		//// Received game data from PLAYER 4
+
+								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out4 = new PrintWriter(s2to4.getOutputStream(),true);
-								// serverFor2.update(out4);
 								outlist.add(out4);
-								Socket get2=null;
-								PrintWriter out3=null;
-								while(get2==null)
-									{
-										get2 = serverFor2.getSock();
-										try{out3 = new PrintWriter(get2.getOutputStream(),true);} catch(Exception e){}
-										
-									}
+								Socket get2 = serverFor2.getSock();
+								PrintWriter out3 = new PrintWriter(get2.getOutputStream(),true);
 								outlist.add(out3);
-								new sendToAll(stdIn,outlist);
+								new sendToAll(stdIn,outlist);		/// Sending game data to all the other players
 							} catch(IOException e1){System.out.println("yahan");e1.printStackTrace();}
 						}
 
-						else if (playerNumber==3)
+						else if (playerNumber==3)		////  PLAYER 3
 						{
 							try
 							{
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
 								setPrivateServer serverFor3 = new setPrivateServer(8313,stdIn);
-								serverFor3.start();
-								System.out.println("Server for 3 started");
-								Date date = new Date();
-								System.out.println("trying"+date.getTime());
+								serverFor3.start();	////  Server created for 4 and received data
+
+								try{sleep(100);}catch(Exception e){}
+
 								Socket s3to2 = new Socket(address,8232);
-								System.out.println("connected to 2");
+								
 								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2);
+								new receive (in2);		//// Received game data from PLAYER 2
+
+								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out2 = new PrintWriter(s3to2.getOutputStream(),true);
-								// serverFor3.update(out2);
 								outlist.add(out2);
-								Socket get3 = null;
-								PrintWriter out4=null;
-								while(get3==null)
-								{
-									get3 = serverFor3.getSock();
-									try{out4 = new PrintWriter(get3.getOutputStream(),true);} catch(Exception e){}
-								}
-								
-								outlist.add(out4);
-								// outs.add(out2);
-								new sendToAll(stdIn,outlist);
+								Socket get3 = serverFor3.getSock();
+								PrintWriter out3 = new PrintWriter(get3.getOutputStream(),true);
+								outlist.add(out3);
+								new sendToAll(stdIn,outlist);		////  Sending game data to all the other players
 							} catch(IOException e2){System.out.println("yahaaaaaan");e2.printStackTrace();}
 						}
 
-						else if (playerNumber==4)
+						else if (playerNumber==4)		/// PLAYER 4
 						{
 							try
 							{
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
 								setPrivateServer serverFor4 = new setPrivateServer(8712,stdIn);	
-								serverFor4.start();
-								System.out.println("Server for 4 started");
+								serverFor4.start();		////  Server created for 2 and received data
+
+								try{sleep(100);}catch(Exception e){}
 
 								Socket s4to3 = new Socket(address,8313);
-								System.out.println("connected to 3");
+								
 								BufferedReader in3 = new BufferedReader(new InputStreamReader(s4to3.getInputStream()));
-								new receive (in3);
+								new receive (in3);		//// Received game data from PLAYER 3
+
+								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out3 = new PrintWriter(s4to3.getOutputStream(),true);
-								// serverFor4.update(out3);
 								outlist.add(out3);
-								Socket get4 = null;
-								PrintWriter out2=null;
-								while (get4 == null)
-								{
-									get4 = serverFor4.getSock();
-									try{out2 = new PrintWriter(get4.getOutputStream(),true);} catch(Exception e){}
-								}
+								Socket get4 = serverFor4.getSock();
+								PrintWriter out2 = new PrintWriter(get4.getOutputStream(),true);
 								
 								outlist.add(out2);
-								new sendToAll(stdIn,outlist);
+								new sendToAll(stdIn,outlist);		////  Sending game data to all the other players
 							} catch(IOException e3){System.out.println("yahan bro");e3.printStackTrace();}
 						}
 						else
@@ -210,6 +191,7 @@ public class Player extends Thread
 
  class setPrivateServer extends Thread
 	{
+		////  Thread for server setup
 		int port;
 		BufferedReader stdIn;
 		Socket client;
@@ -229,12 +211,9 @@ public class Player extends Thread
 		{
 			try
 			{
-				// System.out.println()
 				ServerSocket serverSocket = new ServerSocket(port);
-				Date date = new Date();
-				System.out.println("STARTED AT" + port + "at time   " + date.getTime());
-				Socket client = serverSocket.accept();
-				System.out.println("client accpeted");
+				client = serverSocket.accept();
+				System.out.println("client accepted");
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 				new receive(in);

@@ -17,8 +17,6 @@ public class playerClass implements Serializable
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;	
         playerClass student = (playerClass) o;
-        // if (id != student.id) return false;
-        // if (name != null ? !name.equals(student.name) : student.name != null) return false	
         if (address.equals(student.address))
         	return true;
         else
