@@ -16,8 +16,15 @@ public class print_message extends JPanel {
    public void paintComponent(Graphics g) {
       super.paintComponent(g);
       Graphics2D g2 = (Graphics2D) g;
-      g2.setFont(new Font("Serif", Font.PLAIN, 72));
-      paintHorizontallyCenteredText(g2, message, w+300, h-20);
+      if(message.equals("Timer for Special Power")) {
+         g2.setFont(new Font("Serif", Font.BOLD,20));
+         paintHorizontallyCenteredText(g2, "Timer for", w+275, h);
+         paintHorizontallyCenteredText(g2, "Special Power", w+275, h+23);
+      }
+      else {
+         g2.setFont(new Font("Serif", Font.PLAIN, 72));
+         paintHorizontallyCenteredText(g2, message, w+300, h-20);
+      }
    }
    protected void paintHorizontallyCenteredText(Graphics2D g2,
    String s, float centerX, float baselineY) {
