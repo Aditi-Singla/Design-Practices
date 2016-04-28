@@ -21,24 +21,25 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
    int temp[];
    double a,dist;
    Random random1;
-   int paddlelength;
    
    public movingObjects(int width,int height, String level1) {
       t.start();
       w = width;
       h = height;
       level = level1;
-      addKeyListener(this);
-      setFocusable(true);
-      setFocusTraversalKeysEnabled(false);
-      lpane = new JLayeredPane();                    //using JLayeredPane for multiple planes
-      paddlelength = 100;
 
+      addKeyListener(this);
+      
+      setFocusTraversalKeysEnabled(false);
+      lpane = new JLayeredPane();  //using JLayeredPane for multiple planes
+      setFocusable(true);    
+      requestFocus();              
+      
       this.setLayout(new BorderLayout());
-      paddle2 = new paddle((double)w,(double)(h),true,paddlelength);         //top
-      paddle0 = new paddle((double)w,(double)(h+575),true,paddlelength);         //bottom
-      paddle1 = new paddle((double)(w),(double)h,false,paddlelength);           //left
-      paddle3 = new paddle((double)(w+575),(double)h,false,paddlelength);          //right
+      paddle2 = new paddle((double)w,(double)(h),true);         //top
+      paddle0 = new paddle((double)w,(double)(h+575),true);         //bottom
+      paddle1 = new paddle((double)(w),(double)h,false);           //left
+      paddle3 = new paddle((double)(w+575),(double)h,false);          //right
       ball1 = new ball(w,h);
       lives1 = new lives(w,h);
       powers1 = new powers(w+625,h+50);
@@ -53,7 +54,7 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       }
       temp = new int[3];
       
-      dist = paddlelength * Math.random();
+      dist = 100 * Math.random();
 
 
       paddles = new int[4];
@@ -114,12 +115,12 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
 
             if(diff_ballpaddle < 30)
                paddle1.vel = -12.0;
-            else if(diff_ballpaddle <= paddlelength)
+            else if(diff_ballpaddle <= 100)
                paddle1.vel = 0;
             else
                paddle1.vel = 12.0;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > paddlelength + 50) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
                if(temp[0] == 0) {                  //Undershoot
                   if(paddle1.vel == 0)
                      paddle1.vel = -12;
@@ -128,7 +129,7 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
                         paddle1.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - 12 <= paddlelength)
+                     if(diff_ballpaddle - 12 <= 100)
                         paddle1.vel = 0;
                   }
                }
@@ -138,6 +139,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
                      paddle1.vel = (temp_v == 0)?-12:temp_v;
                }
             }
+
+
          }
       }
       /////////////////////////////////////////
@@ -152,12 +155,12 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
 
             if(diff_ballpaddle < 30)
                paddle3.vel = -12.0;
-            else if(diff_ballpaddle <= paddlelength)
+            else if(diff_ballpaddle <= 100)
                paddle3.vel = 0;
             else
                paddle3.vel = 12.0;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > paddlelength + 50) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
                if(temp[1] == 0) {                  //Undershoot
                   if(paddle3.vel == 0)
                      paddle3.vel = -12;
@@ -166,7 +169,7 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
                         paddle3.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - 12 <= paddlelength)
+                     if(diff_ballpaddle - 12 <= 100)
                         paddle3.vel = 0;
                   }
                }
@@ -192,12 +195,12 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
 
             if(diff_ballpaddle < 30)
                paddle2.vel = -12.0;
-            else if(diff_ballpaddle <= paddlelength)
+            else if(diff_ballpaddle <= 100)
                paddle2.vel = 0;
             else
                paddle2.vel = 12.0;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > paddlelength + 50) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
                if(temp[0] == 0) {                  //Undershoot
                   if(paddle2.vel == 0)
                      paddle2.vel = -12;
@@ -206,7 +209,7 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
                         paddle2.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - 12 <= paddlelength)
+                     if(diff_ballpaddle - 12 <= 100)
                         paddle2.vel = 0;
                   }
                }
@@ -227,20 +230,20 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       ball1.y += ball1.vely;
       if (ball1.x >= w+570)      //right wall
          ball1.x = w+570;
-      else if (paddles[3] == 1 && ball1.x >= w+545 && ball1.y >= paddle3.y && ball1.y <= paddle3.y + paddlelength)         //right paddle
+      else if (paddles[3] == 1 && ball1.x >= w+545 && ball1.y >= paddle3.y && ball1.y <= paddle3.y + 100)         //right paddle
          ball1.x = w+545;
       else if (ball1.x <= w)     //left wall
          ball1.x = w;
-      else if (paddles[1] == 1 && ball1.x <= w+25 && ball1.y >= paddle1.y && ball1.y <= paddle1.y + paddlelength)          //left paddle
+      else if (paddles[1] == 1 && ball1.x <= w+25 && ball1.y >= paddle1.y && ball1.y <= paddle1.y + 100)          //left paddle
          ball1.x = w+25;
       
       if (ball1.y >= h+570)      //bottom wall
          ball1.y = h+570;
-      else if (paddles[0] == 1 && ball1.y >= h+545 && ball1.x >= paddle0.x && ball1.x <= paddle0.x + paddlelength)         //bottom paddle
+      else if (paddles[0] == 1 && ball1.y >= h+545 && ball1.x >= paddle0.x && ball1.x <= paddle0.x + 100)         //bottom paddle
          ball1.y = h+545;
       else if (ball1.y <= h)     //top wall
          ball1.y = h;
-      else if (paddles[2] == 1 && ball1.y <= h+25 && ball1.x >= paddle2.x && ball1.x <= paddle2.x + paddlelength)           //top paddle
+      else if (paddles[2] == 1 && ball1.y <= h+25 && ball1.x >= paddle2.x && ball1.x <= paddle2.x + 100)           //top paddle
          ball1.y = h+25;
 
       /*Corner cases*/
@@ -332,14 +335,18 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
             paddle1.setVisible(false);
          }
       }
-      else if(paddles[3] == 1 && ball1.x == w+545 && ball1.velx > 0 && ball1.y >= paddle3.y-5 && ball1.y <= paddle3.y + paddlelength + 5 ) {         //right paddle
+      else if(paddles[3] == 1 && ball1.x == w+545 && ball1.velx > 0 && ball1.y >= paddle3.y-5 && ball1.y <= paddle3.y + 105 ) {         //right paddle
          ball1.velx *= -1;
-         double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
-         if(speed>13) {
-            ball1.velx *= (13/speed);
-            ball1.vely *= (13/speed);
-         }
-         ball1.vely += paddle3.vel;
+         // double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
+         // if(speed>13) {
+         //    ball1.velx *= (13/speed);
+         //    ball1.vely *= (13/speed);
+         // }
+         if (paddle3.vel * ball1.vely > 0)
+            ball1.vely += -3;
+         if (paddle3.vel != 0)
+            ball1.vely +=3;
+         // ball1.vely += paddle3.vel;
          random1 = new Random();
          if(level.equals("Easy")) {
             prob = 4;
@@ -351,14 +358,18 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
          }
          temp[1] = random1.nextInt(prob);
       }
-      else if (paddles[1] == 1 && ball1.x == w+25 && ball1.velx < 0 && ball1.y >= paddle1.y-5 && ball1.y <= paddle1.y + paddlelength + 5) {          //left paddle
+      else if (paddles[1] == 1 && ball1.x == w+25 && ball1.velx < 0 && ball1.y >= paddle1.y-5 && ball1.y <= paddle1.y + 105) {          //left paddle
          ball1.velx *= -1;
          double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
-         if(speed>13) {
-            ball1.velx *= (13/speed);
-            ball1.vely *= (13/speed);
-         }
-         ball1.vely += paddle1.vel;
+         // if(speed>13) {
+         //    ball1.velx *= (13/speed);
+         //    ball1.vely *= (13/speed);
+         // }
+         if (paddle1.vel * ball1.vely > 0)
+            ball1.vely += -3;
+         if (paddle1.vel != 0)
+            ball1.vely +=3;
+         // ball1.vely += paddle1.vel;
          random1 = new Random();
          if(level.equals("Easy")) {
             prob = 4;
@@ -417,14 +428,18 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
             paddle2.setVisible(false);
          }
       }
-      else if(paddles[0] == 1 && ball1.y >= h+545 && ball1.vely > 0 && ball1.x >= paddle0.x-5 && ball1.x <= paddle0.x + paddlelength + 5) {           //bottom paddle
+      else if(paddles[0] == 1 && ball1.y >= h+545 && ball1.vely > 0 && ball1.x >= paddle0.x-5 && ball1.x <= paddle0.x + 105) {           //bottom paddle
          ball1.vely *= -1;
          double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
-         if(speed>13) {
-            ball1.velx *= (13/speed);
-            ball1.vely *= (13/speed);
-         }
-         ball1.velx += paddle0.vel;
+         // if(speed>13) {
+         //    ball1.velx *= (13/speed);
+         //    ball1.vely *= (13/speed);
+         // }
+         if (paddle0.vel * ball1.velx > 0)
+            ball1.velx += -3;
+         if (paddle0.vel != 0)
+            ball1.velx +=3;
+         // ball1.velx += paddle0.vel;
          if(level.equals("Easy")) {
             prob = 4;
             a = 15;
@@ -434,14 +449,18 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
             a = 5;
          }
       }
-      else if(paddles[2] == 1 && ball1.y <= h+25 && ball1.vely < 0 && ball1.x >= paddle2.x-5 && ball1.x <= paddle2.x + paddlelength + 5) {           //top paddle
+      else if(paddles[2] == 1 && ball1.y <= h+25 && ball1.vely < 0 && ball1.x >= paddle2.x-5 && ball1.x <= paddle2.x + 105) {           //top paddle
          ball1.vely *= -1;
          double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
-         if(speed>13) {
-            ball1.velx *= (13/speed);
-            ball1.vely *= (13/speed);
-         }
-         ball1.velx += paddle2.vel;
+         // if(speed>13) {
+         //    ball1.velx *= (13/speed);
+         //    ball1.vely *= (13/speed);
+         // }
+         if (paddle2.vel * ball1.velx > 0)
+            ball1.velx += -3;
+         if (paddle2.vel != 0)
+            ball1.velx +=3;
+         // ball1.velx += paddle2.vel;
          random1 = new Random();
          if(level.equals("Easy")) {
             prob = 4;
@@ -455,8 +474,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       }
 
       else if (paddles[0] == 1 && ball1.y >= h+545) {        //bottom paddle
-         if (ball1.x <= paddle0.x + paddlelength && ball1.x >= paddle0.x + paddlelength -12){
-            ball1.x = paddle0.x + paddlelength;
+         if (ball1.x <= paddle0.x + 100 && ball1.x >= paddle0.x + 88){
+            ball1.x = paddle0.x + 100;
             ball1.velx *= -1;
          }
          else if (ball1.x >= paddle0.x && ball1.x <= paddle0.x + 12){
@@ -466,8 +485,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       }
 
       else if (paddles[1] == 1 && ball1.x <= w+25) {        //left paddle
-         if (ball1.y <= paddle1.y + paddlelength && ball1.y >= paddle1.y + paddlelength - 12){
-            ball1.y = paddle1.y + paddlelength;
+         if (ball1.y <= paddle1.y + 100 && ball1.y >= paddle1.y + 88){
+            ball1.y = paddle1.y + 100;
             ball1.vely *= -1;
          }
          else if (ball1.y >= paddle1.y && ball1.y <= paddle1.y + 12){
@@ -476,8 +495,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
          }
       }
       else if (paddles[2] == 1 && ball1.y <= h+25) {        //top paddle
-         if (ball1.x <= paddle2.x + paddlelength && ball1.x >= paddle2.x + paddlelength - 12){
-            ball1.x = paddle2.x + paddlelength;
+         if (ball1.x <= paddle2.x + 100 && ball1.x >= paddle2.x + 88){
+            ball1.x = paddle2.x + 100;
             ball1.velx *= -1;
          }
          else if (ball1.x >= paddle2.x && ball1.x <= paddle2.x + 12){
@@ -486,8 +505,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
          }
       } 
       else if (paddles[3] == 1 && ball1.x >= w+545) {        //right paddle
-         if (ball1.y <= paddle3.y + paddlelength && ball1.y >= paddle3.y + paddlelength - 12){
-            ball1.y = paddle3.y + paddlelength;
+         if (ball1.y <= paddle3.y + 100 && ball1.y >= paddle3.y + 88){
+            ball1.y = paddle3.y + 100;
             ball1.vely *= -1;
          }
          else if (ball1.y >= paddle3.y && ball1.y <= paddle3.y + 12){
