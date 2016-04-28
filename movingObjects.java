@@ -28,12 +28,10 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       h = height;
       level = level1;
 
-      addKeyListener(this);
-      
-      setFocusTraversalKeysEnabled(false);
+
       lpane = new JLayeredPane();  //using JLayeredPane for multiple planes
-      setFocusable(true);    
-      requestFocus();              
+      
+
       
       this.setLayout(new BorderLayout());
       paddle2 = new paddle((double)w,(double)(h),true);         //top
@@ -43,6 +41,8 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       ball1 = new ball(w,h);
       lives1 = new lives(w,h);
       powers1 = new powers(w+625,h+50);
+
+
 
       if(level.equals("Easy")) {
          prob = 4;
@@ -88,6 +88,18 @@ public class movingObjects extends JPanel  implements KeyListener, ActionListene
       lpane.add(paddle3, new Integer(4), 0);
       lpane.add(ball1, new Integer(5), 0);
       lpane.add(powers1, new Integer(6), 0);
+
+      addKeyListener(this);
+      
+      setFocusTraversalKeysEnabled(false);
+      setFocusable(true);    
+
+      this.addComponentListener(new ComponentAdapter() {
+         public void componentShown(ComponentEvent e) {
+            movingObjects.this.requestFocusInWindow();
+         }
+      });
+
    }
 
    public void actionPerformed(ActionEvent e) {

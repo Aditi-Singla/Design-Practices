@@ -24,9 +24,6 @@ public class ass3 {
          }
       });
       Container contentPane = frame.getContentPane();
-
-      
-      
       
       /*Taking input from user*/
       JPanel input = new JPanel();
@@ -146,6 +143,7 @@ public class ass3 {
             input.setVisible(false);
             lpane.setVisible(true);
             movingObjects ball_paddles = new movingObjects((width-600)/2,(height-600)/2,"Easy");
+            ball_paddles.grabFocus();
             board gameboard = new board(width,height);
             print_message timer_message = new print_message("Timer for Special Power",(screenSize.width-600)/2 + 400, (screenSize.height-600)/2 + 20);
             gameboard.setBounds(0,0,screenSize.width,screenSize.height);
@@ -161,6 +159,7 @@ public class ass3 {
             lpane.add(gameboard, new Integer(0), 0);
             lpane.add(ball_paddles,new Integer(1), 0);
             lpane.add(timer_message,new Integer(2), 0);
+            
             contentPane.add(lpane,BorderLayout.CENTER);
          }
       });
