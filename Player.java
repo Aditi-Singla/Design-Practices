@@ -1,6 +1,10 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.event.*;
 public class Player extends Thread
 {
 	String hostname;
@@ -15,7 +19,7 @@ public class Player extends Thread
 		this.port = port;
 	}
 
-	@Override
+	
 	public void run()
 	{
 		try
@@ -106,7 +110,7 @@ public class Player extends Thread
 								PrintWriter out3 = new PrintWriter(get2.getOutputStream(),true);
 								outlist.add(out3);
 								new sendToAll(stdIn,outlist);		/// Sending game data to all the other players
-							} catch(IOException e1){System.out.println("yahan");e1.printStackTrace();}
+							} catch(IOException e1){System.out.println("error here");e1.printStackTrace();}
 						}
 
 						else if (playerNumber==3)		////  PLAYER 3

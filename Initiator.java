@@ -90,7 +90,7 @@ public class Initiator
 		{
 			ObjectOutputStream objectOutput,objectOutput2,objectOutput3,objectOutput4;
 			objectOutput = null; objectOutput2=null; objectOutput3=null; objectOutput4 = null;
-			/////Sending object to each player which contains their playernumber, total number of players and the address to which it has to be connected
+			/////Sending object to each player which contains their playernumber, total players and the address to which it has to be connected
 			try
 			{
 				//send address list to every client along

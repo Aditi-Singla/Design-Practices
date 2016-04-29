@@ -26,7 +26,7 @@ public class Play
 			// Player player = new Player(hostname,port);
 			Player player = new Player("10.192.39.3",8000);
 
-			player.start();
+			player.run();
 		}
 	}
 }

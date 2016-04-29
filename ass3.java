@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.net.*;
 import java.awt.geom.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -7,7 +8,8 @@ import javax.swing.border.Border;
 
 public class ass3 {
    static String level = "Easy",host_address;
-   static int width,height,players_num = 2;
+   static int width,height,players_num = 1;
+  static boolean flag_initiator;
    public static void main(String[] args) 
    {
       JFrame frame = new JFrame();
@@ -85,6 +87,16 @@ public class ass3 {
       JPanel levels_back = new JPanel();
       levels_back.setLayout(new GridLayout(1,3));
 
+      SpinnerModel spinnerModel =
+               new SpinnerNumberModel(2, //initial value
+                  2, //min
+                  4, //max
+                  1);//step
+      JSpinner numOfPlayers = new JSpinner(spinnerModel);
+
+      JTextField ip = new JTextField(20);
+            ip.setBorder(new RoundedBorder(10));
+
       /////start_game panel for Start Game button////
       JPanel start_game = new JPanel();
       start_game.setLayout(new FlowLayout());
@@ -108,26 +120,32 @@ public class ass3 {
 
       startgame.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            input.setVisible(false);
-            // System.out.println("action performed");
-            movingObjects ball_paddles = new movingObjects((width-600)/2,(height-600)/2,"Easy");
-            board gameboard = new board(width,height);
-            print_message timer_message = new print_message("Timer for Special Power",(screenSize.width-600)/2 + 400, (screenSize.height-600)/2 + 20);
-            gameboard.setBounds(0,0,screenSize.width,screenSize.height);
-      
-            ball_paddles.setBounds(0,0,screenSize.width,screenSize.height);
-            ball_paddles.setOpaque(false);
-
-            timer_message.setBounds(0,0,screenSize.width,screenSize.height);
-            timer_message.setOpaque(false);
-
             
-            /*Adding paddle, lives, board and ball to the frame*/
-            lpane.add(gameboard, new Integer(0), 0);
-            lpane.add(ball_paddles,new Integer(1), 0);
-            lpane.add(timer_message,new Integer(2), 0);
-            contentPane.add(lpane,BorderLayout.CENTER);
-            SwingUtilities.updateComponentTreeUI(frame);
+            host_address = ip.getText();
+            if(!flag_initiator && (host_address == null || host_address.trim().length()==0)) {
+               JOptionPane.showMessageDialog(null, "Enter a valid IP address");
+            }
+            else {
+               input.setVisible(false);
+                        
+                        movingObjects ball_paddles = new movingObjects((width-600)/2,(height-600)/2,level,players_num,flag_initiator,host_address);
+                        board gameboard = new board(width,height);
+                        print_message timer_message = new print_message("Timer for Special Power",(screenSize.width-600)/2 + 400, (screenSize.height-600)/2 + 20);
+                        gameboard.setBounds(0,0,screenSize.width,screenSize.height);
+                  
+                        ball_paddles.setBounds(0,0,screenSize.width,screenSize.height);
+                        ball_paddles.setOpaque(false);
+            
+                        timer_message.setBounds(0,0,screenSize.width,screenSize.height);
+                        timer_message.setOpaque(false);
+            
+                        
+                        /*Adding paddle, lives, board and ball to the frame*/
+                        lpane.add(gameboard, new Integer(0), 0);
+                        lpane.add(ball_paddles,new Integer(1), 0);
+                        lpane.add(timer_message,new Integer(2), 0);
+                        contentPane.add(lpane,BorderLayout.CENTER);
+                        SwingUtilities.updateComponentTreeUI(frame);}
          }
       });
       start_game.add(startgame);
@@ -178,7 +196,7 @@ public class ass3 {
       back.setOpaque(false);
       back.setContentAreaFilled(false);
       back.setBorderPainted(false);
-      back.setPreferredSize(new Dimension(60, 60));
+      back.setPreferredSize(new Dimension(80, 80));
       back.setFocusable(false);
       JPanel goback = new JPanel();
       goback.add(back);
@@ -197,6 +215,7 @@ public class ass3 {
       new_game.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             buttons.setVisible(false);
+           flag_initiator = true;
             ////players panel for single/multi player and number of players///////
             onclickButtons.removeAll();
             JPanel players = new JPanel();
@@ -206,12 +225,8 @@ public class ass3 {
             JPanel number = new JPanel();
             number.setLayout(new FlowLayout());
             
-            SpinnerModel spinnerModel =
-               new SpinnerNumberModel(2, //initial value
-                  2, //min
-                  4, //max
-                  1);//step
-            JSpinner numOfPlayers = new JSpinner(spinnerModel);
+            
+            
             numOfPlayers.setPreferredSize(new Dimension(80, 40));
             numOfPlayers.setBorder(new RoundedBorder(10));
             numOfPlayers.setForeground(Color.RED);
@@ -224,6 +239,43 @@ public class ass3 {
             });
             numOfPlayers.setFocusable(false);
             number.add(numOfPlayers);
+
+            JButton showIP = new JButton("Show my IP address");
+            showIP.setBorder(new RoundedBorder(5));
+            showIP.setBackground(new Color(128,128,128));
+            showIP.setForeground(Color.BLACK);
+            showIP.setFont(new Font("Helvetica", Font.PLAIN, 15));
+            showIP.setPreferredSize(new Dimension(200, 40));
+            showIP.setFocusable(false);
+
+            showIP.addMouseListener(new java.awt.event.MouseAdapter() {
+               public void mouseEntered(java.awt.event.MouseEvent evt) {
+                     showIP.setBackground(new Color(204, 204, 204));
+               }
+
+               public void mouseExited(java.awt.event.MouseEvent evt) {
+                     showIP.setBackground(new Color(128,128,128));
+               }
+            });
+
+            showIP.addActionListener(new ActionListener() {
+               public void actionPerformed(ActionEvent e) {
+                  String x;
+                  try {
+                     x = Inet4Address.getLocalHost().getHostAddress();
+                  }catch(UnknownHostException ex) {
+                     x = "Unable to acquire IP address";
+                  }
+                  JLabel label = new JLabel(x,JLabel.CENTER);
+                  label.setFont(new Font("Helvetica", Font.PLAIN, 20));
+                  label.setForeground (new Color(51,102,153));
+                  showIP.setVisible(false);
+                  // number.remove(showIP);
+                  number.add(label);
+               }
+            });
+            
+            number.add(showIP);
 
 
 
@@ -277,6 +329,8 @@ public class ass3 {
       join_game.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
             buttons.setVisible(false);
+           flag_initiator = false;
+           players_num = 2;
             ///host panel for host address for joining a game///
             onclickButtons.removeAll();
             JPanel host = new JPanel();
@@ -285,8 +339,7 @@ public class ass3 {
             label.setFont(new Font("Helvetica", Font.PLAIN, 20));
             label.setForeground (new Color(51,102,153));
 
-            JTextField ip = new JTextField(20);
-            ip.setBorder(new RoundedBorder(10));
+            
             host_address = ip.getText();
             ip.setBorder(new RoundedBorder(10));
             ip.setBackground(new Color(255,230,179));   ///beige

@@ -6,7 +6,7 @@ import java.awt.event.*;
 public class paddle extends JPanel {
 
 	double w,h;
-	double x ,vel = 0,acc = 0,y;
+	double x ,vel = 0,acc = 1,y;
 	boolean isH;
 
 	public paddle(double width,double height,boolean isHorizontal) {
@@ -61,9 +61,9 @@ public class paddle extends JPanel {
 	/*Moving the paddle_h according to its velocity*/
 	public void move() {
 		repaint();
-
+		vel = (vel != 0)?(vel + acc):0;
 		if(isH) {
-			x += (vel + acc);
+			x += (vel );
 			if (x < (w + 25) ) {
 				x = (w + 25);
 				vel = 0;
@@ -75,7 +75,7 @@ public class paddle extends JPanel {
 		}
 
 		else {
-			y += (vel + acc);
+			y += (vel );
 			if (y < (h + 25) ) {
 				y = (h + 25);
 				vel = 0;
