@@ -30,7 +30,7 @@ public class ass3 {
       /*Taking input from user*/
       JPanel input = new JPanel();
       // input.setLayout(new BorderLayout());
-      input.setLayout(new GridLayout(5,1,20,40));
+      input.setLayout(new GridLayout(5,1,20,20));
 
 
       //////levels panel for difficulty//////
@@ -84,6 +84,53 @@ public class ass3 {
 
       JPanel levels_back = new JPanel();
       levels_back.setLayout(new GridLayout(1,3));
+
+      /////start_game panel for Start Game button////
+      JPanel start_game = new JPanel();
+      start_game.setLayout(new FlowLayout());
+      JButton startgame = new JButton("Start Game");
+      startgame.setBorder(new RoundedBorder(10));
+      startgame.setBackground(new Color(255,230,179));
+      startgame.setForeground(Color.RED);
+      startgame.setFont(new Font("Helvetica", Font.PLAIN, 20));
+      startgame.setPreferredSize(new Dimension(200, 50));
+      startgame.setFocusable(false);
+
+      startgame.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseEntered(java.awt.event.MouseEvent evt) {
+               startgame.setBackground(new Color(255, 221, 153));
+         }
+
+         public void mouseExited(java.awt.event.MouseEvent evt) {
+               startgame.setBackground(new Color(255,230,179));
+         }
+      });
+
+      startgame.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            input.setVisible(false);
+            // System.out.println("action performed");
+            movingObjects ball_paddles = new movingObjects((width-600)/2,(height-600)/2,"Easy");
+            board gameboard = new board(width,height);
+            print_message timer_message = new print_message("Timer for Special Power",(screenSize.width-600)/2 + 400, (screenSize.height-600)/2 + 20);
+            gameboard.setBounds(0,0,screenSize.width,screenSize.height);
+      
+            ball_paddles.setBounds(0,0,screenSize.width,screenSize.height);
+            ball_paddles.setOpaque(false);
+
+            timer_message.setBounds(0,0,screenSize.width,screenSize.height);
+            timer_message.setOpaque(false);
+
+            
+            /*Adding paddle, lives, board and ball to the frame*/
+            lpane.add(gameboard, new Integer(0), 0);
+            lpane.add(ball_paddles,new Integer(1), 0);
+            lpane.add(timer_message,new Integer(2), 0);
+            contentPane.add(lpane,BorderLayout.CENTER);
+            SwingUtilities.updateComponentTreeUI(frame);
+         }
+      });
+      start_game.add(startgame);
 
 
       ////// buttons panel for new game/join game//////////
@@ -143,6 +190,7 @@ public class ass3 {
             buttons.setVisible(true);
             onclickButtons.setVisible(false);
             goback.setVisible(false);
+            start_game.setVisible(false);
          }          
       });      
       
@@ -164,17 +212,20 @@ public class ass3 {
                   4, //max
                   1);//step
             JSpinner numOfPlayers = new JSpinner(spinnerModel);
-            numOfPlayers.setPreferredSize(new Dimension(80, 30));
+            numOfPlayers.setPreferredSize(new Dimension(80, 40));
             numOfPlayers.setBorder(new RoundedBorder(10));
             numOfPlayers.setForeground(Color.RED);
-            numOfPlayers.setFont(new Font("Helvetica", Font.PLAIN, 10));
+            numOfPlayers.setFont(new Font("Helvetica", Font.PLAIN, 20));
            
             numOfPlayers.addChangeListener(new ChangeListener() {
                public void stateChanged(ChangeEvent e) {
                   players_num = Integer.parseInt((((JSpinner)e.getSource()).getValue()).toString());
                }
             });
+            numOfPlayers.setFocusable(false);
             number.add(numOfPlayers);
+
+
 
             //type panel for single/multi player game////
             JPanel type = new JPanel();
@@ -219,6 +270,7 @@ public class ass3 {
             onclickButtons.add(players,BorderLayout.CENTER);
             onclickButtons.setVisible(true);
             goback.setVisible(true);
+            start_game.setVisible(true);
          }          
       });
 
@@ -243,6 +295,7 @@ public class ass3 {
             onclickButtons.add(host,BorderLayout.CENTER);
             onclickButtons.setVisible(true);
             goback.setVisible(true);
+            start_game.setVisible(true);
          }          
       });
       buttons.add(new_game);
@@ -250,52 +303,7 @@ public class ass3 {
 
 
 
-      /////start_game panel for Start Game button////
-      JPanel start_game = new JPanel();
-      start_game.setLayout(new FlowLayout());
-      JButton startgame = new JButton("Start Game");
-      startgame.setBorder(new RoundedBorder(10));
-      startgame.setBackground(new Color(255,230,179));
-      startgame.setForeground(Color.RED);
-      startgame.setFont(new Font("Helvetica", Font.PLAIN, 20));
-      startgame.setPreferredSize(new Dimension(200, 50));
-      startgame.setFocusable(false);
-
-      startgame.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseEntered(java.awt.event.MouseEvent evt) {
-               startgame.setBackground(new Color(255, 221, 153));
-         }
-
-         public void mouseExited(java.awt.event.MouseEvent evt) {
-               startgame.setBackground(new Color(255,230,179));
-         }
-      });
-
-      startgame.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-            input.setVisible(false);
-            // System.out.println("action performed");
-            movingObjects ball_paddles = new movingObjects((width-600)/2,(height-600)/2,"Easy");
-            board gameboard = new board(width,height);
-            print_message timer_message = new print_message("Timer for Special Power",(screenSize.width-600)/2 + 400, (screenSize.height-600)/2 + 20);
-            gameboard.setBounds(0,0,screenSize.width,screenSize.height);
       
-            ball_paddles.setBounds(0,0,screenSize.width,screenSize.height);
-            ball_paddles.setOpaque(false);
-
-            timer_message.setBounds(0,0,screenSize.width,screenSize.height);
-            timer_message.setOpaque(false);
-
-            
-            /*Adding paddle, lives, board and ball to the frame*/
-            lpane.add(gameboard, new Integer(0), 0);
-            lpane.add(ball_paddles,new Integer(1), 0);
-            lpane.add(timer_message,new Integer(2), 0);
-            contentPane.add(lpane,BorderLayout.CENTER);
-            SwingUtilities.updateComponentTreeUI(frame);
-         }
-      });
-      start_game.add(startgame);
 
       
       // input.add(levels,BorderLayout.NORTH);///
@@ -314,7 +322,9 @@ public class ass3 {
       input.add(levels_back).setLocation(2,1);
       input.add(buttons).setLocation(3,1);
       input.add(onclickButtons).setLocation(4,1);
+      start_game.setVisible(false);
       input.add(start_game).setLocation(5,1);
+      
 
       //////////////////////////
 
