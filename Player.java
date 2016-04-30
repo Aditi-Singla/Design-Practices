@@ -5,18 +5,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.event.*;
-public class Player extends Thread
+import javax.swing.Timer;
+public class Player extends Thread implements ActionListener
 {
 	String hostname;
-	int port;
+	int port=8000;
 	int playerNumber;
 	int total;
 	String address = "";
+	print_message message;
+	Timer t;
+	movingObjects movObj;
 
-	public Player(String hostname, int port)
+	public Player(String hostAddress,print_message message, Timer t, movingObjects movObj)
 	{
-		this.hostname = hostname;
-		this.port = port;
+		hostname = hostAddress;
+		this.message = message;
+		this.t = t;
+		this.movObj = movObj;	
 	}
 
 	
@@ -37,16 +43,22 @@ public class Player extends Thread
 					address = playerData.address;
 					///////////Received playernumber, total number of players, and address to connect to
 
-					BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in)); ///// INPUT TO FEED
-					
-					BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-					new receive(inSERVER); //////Received game data from PLAYER 1
+
 
 					PrintWriter outSERVER = new PrintWriter(s.getOutputStream(),true);
 
 					if (total==2 && playerNumber==2) /////  2 player game
 					{
-						new send(stdIn,outSERVER);	///Sending game data to PLAYER 1
+						ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
+						outs.add(outSERVER);
+						BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+
+						/////////////////receive (BufferedReader in, int myplayerNum, int fromPlayerNum, int total)
+						new receive(inSERVER,2,1,2); //////Received game data from PLAYER 1
+						java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outs);
+					timer.schedule(sendd,250,10);
+						// new sendToAll(outs);
 					}
 
 					else if (total==3)		///   3 player game
@@ -58,12 +70,17 @@ public class Player extends Thread
 								ServerSocket s2for3 = new ServerSocket(8232);
 								Socket client3 = s2for3.accept();
 								BufferedReader in3 = new BufferedReader (new InputStreamReader(client3.getInputStream()));
-								new receive(in3);		//// Received game data from PLAYER 3
+								new receive(in3,2,3,3);		//// Received game data from PLAYER 3
+
+								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+								new receive(inSERVER,2,1,3); //////Received game data from PLAYER 1
 
 								PrintWriter out3 = new PrintWriter(client3.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
 								outs.add(outSERVER); outs.add(out3);
-								new sendToAll(stdIn,outs);	///// Sending game data to PLAYER 1 & 3
+								java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outs);
+					timer.schedule(sendd,250,10);	///// Sending game data to PLAYER 1 & 3
 							} catch(IOException e){e.printStackTrace();}
 						}
 						else if (playerNumber==3)		////PLAYER 3
@@ -72,12 +89,17 @@ public class Player extends Thread
 							{
 								Socket s3to2 = new Socket(address,8232);
 								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2);		////Received game data from PLAYER 2
+								new receive (in2,3,2,3);		////Received game data from PLAYER 2
+
+								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+								new receive(inSERVER,3,1,3); //////Received game data from PLAYER 1
 				
 								PrintWriter out2 = new PrintWriter(s3to2.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
 								outs.add(outSERVER); outs.add(out2);
-								new sendToAll(stdIn,outs);	/////Sending game data to PLAYER 1 & 2
+								java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outs);
+					timer.schedule(sendd,250,10);	/////Sending game data to PLAYER 1 & 2
 							} catch(IOException e){e.printStackTrace();}
 						}
 						else
@@ -92,16 +114,13 @@ public class Player extends Thread
 							{
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
-								setPrivateServer serverFor2 = new setPrivateServer(8232,stdIn);
+								setPrivateServer serverFor2 = new setPrivateServer(8232,2,3);
 								serverFor2.start();		////  Server created for 3 and received data 
 
 								try{sleep(100);}catch(Exception e){}
 
 								Socket s2to4 = new Socket(address,8712);
-								
-								BufferedReader in4 = new BufferedReader(new InputStreamReader(s2to4.getInputStream()));
-								new receive (in4);		//// Received game data from PLAYER 4
-
+							
 								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out4 = new PrintWriter(s2to4.getOutputStream(),true);
@@ -109,7 +128,16 @@ public class Player extends Thread
 								Socket get2 = serverFor2.getSock();
 								PrintWriter out3 = new PrintWriter(get2.getOutputStream(),true);
 								outlist.add(out3);
-								new sendToAll(stdIn,outlist);		/// Sending game data to all the other players
+
+								BufferedReader in4 = new BufferedReader(new InputStreamReader(s2to4.getInputStream()));
+								new receive (in4,2,4,4);		//// Received game data from PLAYER 4
+
+								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+								new receive(inSERVER,2,1,4); //////Received game data from PLAYER 1
+
+								java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outlist);
+					timer.schedule(sendd,250,10);	/// Sending game data to all the other players
 							} catch(IOException e1){System.out.println("error here");e1.printStackTrace();}
 						}
 
@@ -119,16 +147,13 @@ public class Player extends Thread
 							{
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
-								setPrivateServer serverFor3 = new setPrivateServer(8313,stdIn);
+								setPrivateServer serverFor3 = new setPrivateServer(8313,3,4);
 								serverFor3.start();	////  Server created for 4 and received data
 
 								try{sleep(100);}catch(Exception e){}
 
 								Socket s3to2 = new Socket(address,8232);
-								
-								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2);		//// Received game data from PLAYER 2
-
+							
 								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out2 = new PrintWriter(s3to2.getOutputStream(),true);
@@ -136,7 +161,16 @@ public class Player extends Thread
 								Socket get3 = serverFor3.getSock();
 								PrintWriter out3 = new PrintWriter(get3.getOutputStream(),true);
 								outlist.add(out3);
-								new sendToAll(stdIn,outlist);		////  Sending game data to all the other players
+
+								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
+								new receive (in2,3,2,4);		//// Received game data from PLAYER 2
+
+								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+								new receive(inSERVER,3,1,4); //////Received game data from PLAYER 1
+
+								java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outlist);
+					timer.schedule(sendd,250,10);	////  Sending game data to all the other players
 							} catch(IOException e2){System.out.println("yahaaaaaan");e2.printStackTrace();}
 						}
 
@@ -146,16 +180,13 @@ public class Player extends Thread
 							{
 								ArrayList<PrintWriter> outlist = new ArrayList<PrintWriter>();
 								outlist.add(outSERVER);
-								setPrivateServer serverFor4 = new setPrivateServer(8712,stdIn);	
+								setPrivateServer serverFor4 = new setPrivateServer(8712,4,2);	
 								serverFor4.start();		////  Server created for 2 and received data
 
 								try{sleep(100);}catch(Exception e){}
 
 								Socket s4to3 = new Socket(address,8313);
-								
-								BufferedReader in3 = new BufferedReader(new InputStreamReader(s4to3.getInputStream()));
-								new receive (in3);		//// Received game data from PLAYER 3
-
+							
 								try{sleep(100);}catch(Exception e){}
 
 								PrintWriter out3 = new PrintWriter(s4to3.getOutputStream(),true);
@@ -164,17 +195,29 @@ public class Player extends Thread
 								PrintWriter out2 = new PrintWriter(get4.getOutputStream(),true);
 								
 								outlist.add(out2);
-								new sendToAll(stdIn,outlist);		////  Sending game data to all the other players
+
+								BufferedReader in3 = new BufferedReader(new InputStreamReader(s4to3.getInputStream()));
+								new receive (in3,4,3,4);		//// Received game data from PLAYER 3
+
+								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
+								new receive(inSERVER,4,1,4); //////Received game data from PLAYER 1
+
+
+								java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(outlist);
+					timer.schedule(sendd,250,10);	////  Sending game data to all the other players
+
+
 							} catch(IOException e3){System.out.println("yahan bro");e3.printStackTrace();}
 						}
-						else
-							{System.out.println("Invalid Input");System.exit(1);}
+
 					}
 
-					else
-					{
-						System.err.println("Invalid");
-					}
+
+
+					this.t.start();
+
+					
 
 				} catch (ClassNotFoundException e) {System.out.println("Object not received"); e.printStackTrace();}
 			} catch (IOException e) {System.out.println("InputStream problem"); e.printStackTrace();}
@@ -191,19 +234,43 @@ public class Player extends Thread
             System.exit(1);
 		}
 	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		movObj.actionPerformed(e);
+	} 
+
+	public class sendToAll extends TimerTask
+	{
+		ArrayList<PrintWriter> outs;
+		String data;
+		public sendToAll (ArrayList<PrintWriter> out)
+		{
+			outs = out;
+		}
+
+		public void run()
+		{
+			data = movObj.paddle0.vel + " " + movObj.powerused;
+			for (int i=0;i<outs.size();i++)
+				outs.get(i).println(data);
+		}
+	}
+
 }
 
  class setPrivateServer extends Thread
 	{
 		////  Thread for server setup
 		int port;
-		BufferedReader stdIn;
 		Socket client;
+		int myplayer, forplayer;
 
-		public setPrivateServer(int port, BufferedReader stdIn)
+		public setPrivateServer(int port, int mynum, int fornum)
 		{
 			this.port = port;
-			this.stdIn = stdIn;
+			myplayer = mynum;
+			forplayer = fornum;
 		}
 
 		public Socket getSock ()
@@ -220,7 +287,7 @@ public class Player extends Thread
 				System.out.println("client accepted");
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-				new receive(in);
+				new receive(in,myplayer,forplayer,4);
 			}
 			catch (IOException e) {System.out.println("weird error");e.printStackTrace();}
 		}

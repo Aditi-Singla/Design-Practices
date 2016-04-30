@@ -32,7 +32,12 @@ public class print_message extends JPanel {
       Rectangle2D bounds = g2.getFont().getStringBounds(s, frc);
       float width = (float) bounds.getWidth();
       float height = (float) bounds.getHeight();
-      g2.setColor(Color.BLACK);
+      if(s.equals("3")||s.equals("2")||s.equals("1")||s.equals("GO")||s.equals("Waiting for players to connect...")) {
+         g2.setColor(new Color(204,0,0));
+         g2.setFont(new Font("Serif", Font.PLAIN, 64));
+      }
+      else
+         g2.setColor(Color.BLACK);
       g2.drawString(s, centerX - width / 2, baselineY);
    }
   

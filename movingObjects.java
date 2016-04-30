@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.util.Random;
 
-public class movingObjects extends JPanel implements ActionListener{
+public class movingObjects extends JPanel  implements ActionListener{
 
    int w,h;
    int prob;
@@ -19,35 +19,40 @@ public class movingObjects extends JPanel implements ActionListener{
    int paddles[];
    JLayeredPane lpane;
    int temp[];
-   double a,dist;
+   double a;
    Random random1;
    double paddleVel; 
   int numOfPlayers;
   boolean isInitiator;
   int x_sign, y_sign;
-  String hostAddress;
+
+  int counter = 0;
+  print_message message3,message2,message1,messageGO;
+
+  String host_name;
+
+  int powerused = 0;
+  
 
    
-   public movingObjects(int width,int height, String level1, int players_num,boolean flag_initiator,String host_address) {
+   public movingObjects(int width,int height, String level1, int players_num,boolean flag_initiator, String host_address) {
       
       w = width;
       h = height;
       level = level1;
-      numOfPlayers = players_num;
+         numOfPlayers = players_num;
       isInitiator = flag_initiator;
-      hostAddress = host_address;
       paddleVel = 30;
+      host_name = host_address;
 
       lpane = new JLayeredPane();  //using JLayeredPane for multiple planes
                    
       
       this.setLayout(new BorderLayout());
-      paddle2 = new paddle((double)w,(double)(h),true);         //top
-      paddle0 = new paddle((double)w,(double)(h+575),true);         //bottom
-      paddle1 = new paddle((double)(w),(double)h,false);           //left
-      paddle3 = new paddle((double)(w+575),(double)h,false);          //right
-      // ArrayList<paddle> allpaddles = new ArrayList<paddle>();
-      // allpaddles.add(pad)
+      paddle2 = new paddle((double)w,(double)(h),true,100);         //top
+      paddle0 = new paddle((double)w,(double)(h+575),true,100);         //bottom
+      paddle1 = new paddle((double)(w),(double)h,false,100);           //left
+      paddle3 = new paddle((double)(w+575),(double)h,false,100);          //right
       ball1 = new ball(w,h);
       lives1 = new lives(w,h);
       powers1 = new powers(w+625,h+50);
@@ -62,7 +67,7 @@ public class movingObjects extends JPanel implements ActionListener{
       }
       temp = new int[3];
       
-      dist = 100 * Math.random();
+      
 
 
       paddles = new int[4];
@@ -121,9 +126,10 @@ public class movingObjects extends JPanel implements ActionListener{
       actionMap.put("released", new KeyControl("released"));
 
 
-      System.out.println(""+numOfPlayers);
-      if(numOfPlayers == 1) 
+      
+      if(numOfPlayers == 1) {
          t.start();
+      }
       else {
                print_message message = new print_message("Waiting for players to connect...",w,h+336);
                message.setBounds(0,0,(2*w)+600,2*h+600);
@@ -132,18 +138,52 @@ public class movingObjects extends JPanel implements ActionListener{
       
                if (isInitiator)
                {
-                  Initiator initiator = new Initiator(ball1,paddle0,paddle1,paddle2,paddle3,lives1,powers1);
+                  Initiator initiator = new Initiator(numOfPlayers,message,t,this);
                }
                else
                {
-                  Player player = new Player(hostAddress,8000,ball1,paddle0,paddle1,paddle2,paddle3,lives1,powers1);
-                  player.run();
+                  Player player = new Player(host_name,message,t,this); /**********************//**********************//**********************/
+                  player.start(); /**********************//**********************//**********************//**********************/
                }
             }
    }
 
    public void actionPerformed(ActionEvent e) {
-     
+      if(counter<102) {
+         counter++;
+      if(counter == 1) {
+         message3 = new print_message("3",w,h+336);
+         message3.setBounds(0,0,(2*w)+600,2*h+600);
+         message3.setOpaque(false);
+         lpane.add(message3, new Integer(6), 0);
+      }
+      else if(counter == 31) {
+         message3.setVisible(false);
+         message2 = new print_message("2",w,h+336);
+         message2.setBounds(0,0,(2*w)+600,2*h+600);
+         message2.setOpaque(false);
+         lpane.add(message2, new Integer(6), 0);
+      }
+      else if(counter == 61) {
+         message2.setVisible(false);
+         message1 = new print_message("1",w,h+336);
+         message1.setBounds(0,0,(2*w)+600,2*h+600);
+         message1.setOpaque(false);
+         lpane.add(message1, new Integer(6), 0);
+      }
+      else if(counter == 91) {
+         message1.setVisible(false);
+         messageGO = new print_message("GO",w,h+336);
+         messageGO.setBounds(0,0,(2*w)+600,2*h+600);
+         messageGO.setOpaque(false);
+         lpane.add(messageGO, new Integer(6), 0);
+      }
+      else if(counter == 101) {
+         messageGO.setVisible(false);
+      }
+   }
+   else {
+      
        if (paddles[0] ==1)
          powers1.incNum();
       paddle0.move();
@@ -159,18 +199,30 @@ public class movingObjects extends JPanel implements ActionListener{
       y_sign = (ball1.vely > 0) ? 1:-1;
       double angle = Math.abs(Math.atan(ball1.vely/ball1.velx));
 
-
-
-      aiForPaddle1();
-      aiForPaddle2();
-      aiForPaddle3();
+      if (isInitiator)
+      {
+         switch(numOfPlayers) {
+         case 1:  aiForPaddle1();
+                  aiForPaddle2();
+                  aiForPaddle3();
+                  break;
+         case 2:  aiForPaddle2();
+                  aiForPaddle3();
+                  break;
+         case 3:  aiForPaddle3();
+                  break;
+         default: ;
+         }
+      }
+      
+      
 
       ball1.x += ball1.velx;
       ball1.y += ball1.vely;
       
-      /***********************   Collisions with the paddles   ***************************/
+      /*Collisions with the paddles*/
 
-      if(paddles[3] == 1 && ball1.x >= w+545 && ball1.y >= paddle3.y-5 && ball1.y <= paddle3.y + 105 ) {         //right paddle
+      if(paddles[3] == 1 && ball1.x >= w+545 && ball1.y >= paddle3.y-5 && ball1.y <= paddle3.y + paddle3.l+5 ) {         //right paddle
          ball1.velx *= -1;
          ball1.x = w + 545;         
          if (paddle3.vel * ball1.vely > 0)
@@ -190,7 +242,7 @@ public class movingObjects extends JPanel implements ActionListener{
          random1 = new Random();
          temp[1] = random1.nextInt(prob);
       }
-      else if (paddles[1] == 1 && ball1.x <= w+25 && ball1.y >= paddle1.y-5 && ball1.y <= paddle1.y + 105) {          //left paddle
+      else if (paddles[1] == 1 && ball1.x <= w+25 && ball1.y >= paddle1.y-5 && ball1.y <= paddle1.y + paddle1.l+5) {          //left paddle
          ball1.velx *= -1;
          ball1.x = w+25;
          if (paddle1.vel * ball1.vely > 0)
@@ -210,7 +262,7 @@ public class movingObjects extends JPanel implements ActionListener{
          random1 = new Random();
          temp[0] = random1.nextInt(prob);
       }
-      else if(paddles[0] == 1 && ball1.y >= h+545 && ball1.x >= paddle0.x-5 && ball1.x <= paddle0.x + 105) {           //bottom paddle
+      else if(paddles[0] == 1 && ball1.y >= h+545 && ball1.x >= paddle0.x-5 && ball1.x <= paddle0.x + paddle0.l+5) {           //bottom paddle
          ball1.vely *= -1;
          ball1.y = h+545;
          if (paddle0.vel * ball1.velx > 0)
@@ -227,7 +279,7 @@ public class movingObjects extends JPanel implements ActionListener{
             a = 5;
          }
       }
-      else if(paddles[2] == 1 && ball1.y <= h+25 && ball1.x >= paddle2.x-5 && ball1.x <= paddle2.x + 105) {           //top paddle
+      else if(paddles[2] == 1 && ball1.y <= h+25 && ball1.x >= paddle2.x-5 && ball1.x <= paddle2.x + paddle2.l+5) {           //top paddle
          ball1.vely *= -1;
          ball1.y = h+25;
          if (paddle2.vel * ball1.velx > 0)
@@ -248,8 +300,7 @@ public class movingObjects extends JPanel implements ActionListener{
          temp[2] = random1.nextInt(prob);
       }
 
-      /**************************** Corner cases   *****************************/
-
+      /*Corner cases*/
       else if(ball1.x <= (w + 30) && ball1.y <= (h + 30)) {                            //top left corner
          if(y_sign < 0 && x_sign < 0) {
             double speed = Math.sqrt((ball1.velx * ball1.velx) + (ball1.vely*ball1.vely));
@@ -296,11 +347,12 @@ public class movingObjects extends JPanel implements ActionListener{
       }
       else {
 
-      /***********************   Collisions with wall ***************************/
+      /*Collisions with wall*/
 
-      if(ball1.x >= w+570 && !(paddles[3] == 1 && (ball1.y >= paddle3.y-35 && ball1.y <= paddle3.y + 105))) {         //right wall
+      if(ball1.x >= w+570 && !(paddles[3] == 1 && (ball1.y >= paddle3.y-35 && ball1.y <= paddle3.y + paddle3.l+5))) {         //right wall
          ball1.velx *= -1;
          lives1.setMiss(1);
+         
          ball1.x = w+570;
          if(level.equals("Easy")) {
             prob = 4;
@@ -315,10 +367,13 @@ public class movingObjects extends JPanel implements ActionListener{
             paddles[3] = 0;
             paddle3.setVisible(false);
          }
+         else if(level.equals("Hard")) {
+            paddle3.l = paddle3.l - 20;
+         }
          random1 = new Random();
          temp[1] = random1.nextInt(prob);
       }
-      else if(ball1.x <= w && !(paddles[1] == 1 && (ball1.y >= paddle1.y-35 && ball1.y <= paddle1.y + 105))) {     //left wall
+      else if(ball1.x <= w && !(paddles[1] == 1 && (ball1.y >= paddle1.y-35 && ball1.y <= paddle1.y + paddle1.l+5))) {     //left wall
          ball1.velx *= -1;
          lives1.setMiss(3);
          ball1.x = w;
@@ -335,13 +390,16 @@ public class movingObjects extends JPanel implements ActionListener{
             paddles[1] = 0;
             paddle1.setVisible(false);
          }
+         else if(level.equals("Hard")) {
+            paddle1.l = paddle1.l - 20;
+         }
          random1 = new Random();
          temp[0] = random1.nextInt(prob);
       }
 
 
 
-      else if(ball1.y >= h+570 && !(paddles[0] == 1 && (ball1.x >= paddle0.x-35 && ball1.x <= paddle0.x + 105))) {     //bottom wall
+      else if(ball1.y >= h+570 && !(paddles[0] == 1 && (ball1.x >= paddle0.x-35 && ball1.x <= paddle0.x + paddle0.l+5))) {     //bottom wall
          ball1.vely *= -1;
          lives1.setMiss(2);
          powers1.num = 0;
@@ -359,8 +417,11 @@ public class movingObjects extends JPanel implements ActionListener{
             paddles[0] = 0;
             paddle0.setVisible(false);
          }
+         else if(level.equals("Hard")) {
+            paddle0.l = paddle0.l - 20;
+         }
       }
-      else if(ball1.y <= h && !(paddles[2] == 1 && (ball1.x >= paddle2.x-35 && ball1.x <= paddle2.x + 105))) {     //top wall
+      else if(ball1.y <= h && !(paddles[2] == 1 && (ball1.x >= paddle2.x-35 && ball1.x <= paddle2.x + paddle2.l+5))) {     //top wall
          ball1.vely *= -1;
          lives1.setMiss(0);
          ball1.y = h;
@@ -377,15 +438,18 @@ public class movingObjects extends JPanel implements ActionListener{
             paddles[2] = 0;
             paddle2.setVisible(false);
          }
+         else if(level.equals("Hard")) {
+            paddle2.l = paddle2.l - 20;
+         }
          random1 = new Random();
          temp[2] = random1.nextInt(prob);
       }
       
-      /***********************   Edges of paddles  **********************/
+      /*Edges of paddles*/
 
       else if (paddles[0] == 1 && ball1.y >= h+545) {        //bottom paddle
-         if (ball1.x <= paddle0.x + 100 && ball1.x >= paddle0.x + 101 - paddleVel){
-            ball1.x = paddle0.x + 100;
+         if (ball1.x <= paddle0.x + paddle0.l && ball1.x >= paddle0.x + paddle0.l + 1 - paddleVel){
+            ball1.x = paddle0.x + paddle0.l;
             ball1.velx *= -1;
          }
          else if (ball1.x >= paddle0.x - 30 && ball1.x <= paddle0.x - 31 + paddleVel){
@@ -395,8 +459,8 @@ public class movingObjects extends JPanel implements ActionListener{
       }
 
       else if (paddles[1] == 1 && ball1.x <= w+25) {        //left paddle
-         if (ball1.y <= paddle1.y + 100 && ball1.y >= paddle1.y + 101 - paddleVel){
-            ball1.y = paddle1.y + 100;
+         if (ball1.y <= paddle1.y + paddle1.l && ball1.y >= paddle1.y + paddle1.l + 1 - paddleVel){
+            ball1.y = paddle1.y + paddle1.l;
             ball1.vely *= -1;
          }
          else if (ball1.y >= paddle1.y - 30 && ball1.y <= paddle1.y - 31 + paddleVel){
@@ -405,8 +469,8 @@ public class movingObjects extends JPanel implements ActionListener{
          }
       }
       else if (paddles[2] == 1 && ball1.y <= h+25) {        //top paddle
-         if (ball1.x <= paddle2.x + 100 && ball1.x >= paddle2.x + 101 - paddleVel){
-            ball1.x = paddle2.x + 100;
+         if (ball1.x <= paddle2.x + paddle2.l && ball1.x >= paddle2.x + paddle2.l + 1 - paddleVel){
+            ball1.x = paddle2.x + paddle2.l;
             ball1.velx = Math.abs(ball1.velx);
          }
          else if (ball1.x >= paddle2.x - 30 && ball1.x <= paddle2.x - 31 + paddleVel){
@@ -415,8 +479,8 @@ public class movingObjects extends JPanel implements ActionListener{
          }
       } 
       else if (paddles[3] == 1 && ball1.x >= w+545) {        //right paddle
-         if (ball1.y <= paddle3.y + 100 && ball1.y >= paddle3.y + 101 - paddleVel){
-            ball1.y = paddle3.y + 100;
+         if (ball1.y <= paddle3.y + paddle3.l && ball1.y >= paddle3.y + paddle3.l + 1 - paddleVel){
+            ball1.y = paddle3.y + paddle3.l;
             ball1.vely *= -1;
          }
          else if (ball1.y >= paddle3.y - 30 && ball1.y <= paddle3.y - 31 + paddleVel){
@@ -450,6 +514,7 @@ public class movingObjects extends JPanel implements ActionListener{
    
      
    }
+}
 
       class KeyControl extends AbstractAction{
       String code;
@@ -498,11 +563,25 @@ public class movingObjects extends JPanel implements ActionListener{
 
       /*Imparting extra speed*/
       public void springHit(int player) {
-         // switch(player) {
-         //    case 0: if(ball1.y == )
-         // }
-         // ball1.velx *= 1.5;
-         // ball1.vely *= 1.5;
+         
+            boolean b;
+            switch(player) {
+               case 0:  b = (paddles[0] == 1 && ball1.y >= h+535 && ball1.x >= paddle0.x-10 && ball1.x <= paddle0.x + paddle0.l + 10);
+                        break;
+               case 1:  b = (paddles[1] == 1 && ball1.x <= w+35 && ball1.y >= paddle1.y-10 && ball1.y <= paddle1.y + paddle1.l + 10);
+                        break;
+               case 2:  b = (paddles[2] == 1 && ball1.y <= h+35 && ball1.x >= paddle2.x-10 && ball1.x <= paddle2.x + paddle2.l + 10);
+                        break;
+               default: b = (paddles[3] == 1 && ball1.x >= w+535 && ball1.y >= paddle3.y-10 && ball1.y <= paddle3.y + paddle3.l + 10);
+                        break;
+            }
+            if(b) {
+               ball1.velx *= 1.5;
+               ball1.vely *= 1.5;
+               powers1.num = 0;
+            }
+            
+         
       }
 
       /*Spinning the ball in anticlockwise direction*/
@@ -532,12 +611,12 @@ public class movingObjects extends JPanel implements ActionListener{
 
             if(diff_ballpaddle < -30)
                paddle1.vel = -paddleVel;
-            else if(diff_ballpaddle <= 100)
+            else if(diff_ballpaddle <= paddle1.l)
                paddle1.vel = 0;
             else
                paddle1.vel = paddleVel;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > paddle1.l  +50) {
                if(temp[0] == 0) {                  //Undershoot
                   if(paddle1.vel == 0)
                      paddle1.vel = -paddleVel;
@@ -546,7 +625,7 @@ public class movingObjects extends JPanel implements ActionListener{
                         paddle1.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - paddleVel <= 100)
+                     if(diff_ballpaddle - paddleVel <= paddle1.l)
                         paddle1.vel = 0;
                   }
                }
@@ -582,12 +661,12 @@ public class movingObjects extends JPanel implements ActionListener{
 
             if(diff_ballpaddle < 30)
                paddle2.vel = -paddleVel;
-            else if(diff_ballpaddle <= 100)
+            else if(diff_ballpaddle <= paddle2.l)
                paddle2.vel = 0;
             else
                paddle2.vel = paddleVel;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > paddle2.l  +50) {
                if(temp[0] == 0) {                  //Undershoot
                   if(paddle2.vel == 0)
                      paddle2.vel = -paddleVel;
@@ -596,7 +675,7 @@ public class movingObjects extends JPanel implements ActionListener{
                         paddle2.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - paddleVel <= 100)
+                     if(diff_ballpaddle - paddleVel <= paddle2.l)
                         paddle2.vel = 0;
                   }
                }
@@ -625,12 +704,12 @@ public class movingObjects extends JPanel implements ActionListener{
 
             if(diff_ballpaddle < 30)
                paddle3.vel = -paddleVel;
-            else if(diff_ballpaddle <= 100)
+            else if(diff_ballpaddle <= paddle3.l)
                paddle3.vel = 0;
             else
                paddle3.vel = paddleVel;
 
-            if(diff_ballpaddle < -80 || diff_ballpaddle > 150) {
+            if(diff_ballpaddle < -80 || diff_ballpaddle > paddle3.l  +50) {
                if(temp[1] == 0) {                  //Undershoot
                   if(paddle3.vel == 0)
                      paddle3.vel = -paddleVel;
@@ -639,7 +718,7 @@ public class movingObjects extends JPanel implements ActionListener{
                         paddle3.vel = 0;
                   }
                   else {
-                     if(diff_ballpaddle - paddleVel <= 100)
+                     if(diff_ballpaddle - paddleVel <= paddle3.l)
                         paddle3.vel = 0;
                   }
                }

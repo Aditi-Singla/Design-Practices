@@ -5,21 +5,22 @@ import java.awt.event.*;
 
 public class paddle extends JPanel {
 
-	double w,h;
+	double w,h,l;
 	double x ,vel = 0,acc = 1,y;
 	boolean isH;
 
-	public paddle(double width,double height,boolean isHorizontal) {
+	public paddle(double width,double height,boolean isHorizontal,double l) {
 		h = height;
 		w = width;
 		isH = isHorizontal;
+		this.l = l;
 		if(isH) {
-			x = width + 25 + 450 * 0.5;
+			x = width + 25 + (550 - l) * 0.5;
 			y = height;
 		}
 		else {
 			x = width;
-			y = (height + 25) + 450 * 0.5;
+			y = (height + 25) + (550 - l) * 0.5;
 		}
 	}
 
@@ -32,28 +33,28 @@ public class paddle extends JPanel {
 		if(isH) {
 			g.setColor(Color.BLACK);
 			g.setStroke(new BasicStroke(2.0f));
-			g.draw(new RoundRectangle2D.Double(x,y,100,25,12.5,12.5));
+			g.draw(new RoundRectangle2D.Double(x,y,l,25,12.5,12.5));
 			g.setColor(new Color(204,0,0));
-			g.fill(new RoundRectangle2D.Double(x,y,100,25,12.5,12.5));
+			g.fill(new RoundRectangle2D.Double(x,y,l,25,12.5,12.5));
 
 			g.setColor(Color.BLACK);
 			g.setStroke(new BasicStroke(2.0f));
-			g.draw(new RoundRectangle2D.Double(x+15,y+6,70,13,12.5,12.5));
+			g.draw(new RoundRectangle2D.Double(x+(0.15*l),y+6,0.7*l,13,12.5,12.5));
 			g.setColor(new Color(167,0,0));
-			g.fill(new RoundRectangle2D.Double(x+15,y+6,70,13,12.5,12.5));
+			g.fill(new RoundRectangle2D.Double(x+(0.15*l),y+6,0.7*l,13,12.5,12.5));
 		}
 		else {
 			g.setColor(Color.BLACK);
 			g.setStroke(new BasicStroke(2.0f));
-			g.draw(new RoundRectangle2D.Double(x,y,25,100,12.5,12.5));
+			g.draw(new RoundRectangle2D.Double(x,y,25,l,12.5,12.5));
 			g.setColor(new Color(204,0,0));
-			g.fill(new RoundRectangle2D.Double(x,y,25,100,12.5,12.5));
+			g.fill(new RoundRectangle2D.Double(x,y,25,l,12.5,12.5));
 
 			g.setColor(Color.BLACK);
 			g.setStroke(new BasicStroke(2.0f));
-			g.draw(new RoundRectangle2D.Double(x+6,y+15,13,70,12.5,12.5));
+			g.draw(new RoundRectangle2D.Double(x+6,y+(0.15*l),13,0.7*l,12.5,12.5));
 			g.setColor(new Color(167,0,0));
-			g.fill(new RoundRectangle2D.Double(x+6,y+15,13,70,12.5,12.5));
+			g.fill(new RoundRectangle2D.Double(x+6,y+(0.15*l),13,0.7*l,12.5,12.5));
 		} 
 
 	}

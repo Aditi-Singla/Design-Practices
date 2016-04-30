@@ -1,8 +1,10 @@
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.Timer;
+import java.awt.event.*;
 
-public class Initiator
+public class Initiator implements ActionListener
 {
 	ServerSocket serverSocket;
 	int port = 8000;
@@ -13,14 +15,23 @@ public class Initiator
 	int numPlayers;
 	int playerNumber = 1;
 
-	public Initiator(int port, int numPlayers)
+	print_message message;
+
+	Timer t;
+	movingObjects movObj;
+	// int vel0;
+	// int vel2, vel3;
+
+	public Initiator(int numPlayers, print_message message, Timer t, movingObjects movObj)
+	
 	{
-		this.port = port;
 		this.numPlayers = numPlayers;
+		this.message = message;
+		this.t = t;
+		this.movObj = movObj;
 		try
 		{
 			serverSocket = new ServerSocket(port);
-			BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));	//////STDIN : takes input
 			try
 			{
 				while (true)
@@ -38,13 +49,12 @@ public class Initiator
 					String address = client.getInetAddress().getHostName().toString();
 					addresses.add(address);				///////////// address of client added to address list
 
-					Initiated started = new Initiated(client,stdIn); ///////communication thread of player 1 and recently added player
+					Initiated started = new Initiated(client,playerNumber); ///////communication thread of player 1 and recently added player
 					initiateds.add(started);
-
-					// started.start();
-					// for (int i=0;i<initiateds.size();i++)
-					// 	initiateds.get(i).updatenum(playerNumber);
 				}
+
+				this.t.start();
+
 			}
 			catch (IOException e)
 			{
@@ -68,16 +78,21 @@ public class Initiator
 		}
 	}
 
+	public void actionPerformed(ActionEvent e)
+	{
+		movObj.actionPerformed(e);
+	}
+
 
 	public class Initiated extends Thread
 	{
 		private Socket clientSocket;
-		private BufferedReader stdIn;
-
-		public Initiated(Socket client, BufferedReader stdIn)
+		int player;
+		public Initiated(Socket client, int playernumm)
 		{
 			clientSocket = client;
-			this.stdIn = stdIn;
+			player = playernumm;
+			// this.stdIn = stdIn;
 			try
 			{
 				PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
@@ -98,8 +113,7 @@ public class Initiator
 				{
 					objectOutput = new ObjectOutputStream(clientSocket.getOutputStream());
 					playerClass obj = new playerClass(2,2,"");
-					objectOutput.writeObject(obj);	
-					// objectOutput.flush(); objectOutput.close();
+					objectOutput.writeObject(obj);
 				}
 				else if (numPlayers==3)
 				{
@@ -108,14 +122,12 @@ public class Initiator
 						objectOutput2 = new ObjectOutputStream(clients.get(0).getOutputStream());
 						playerClass obj = new playerClass(2,3,"");
 						objectOutput2.writeObject(obj);
-						// objectOutput2.flush(); objectOutput2.close();
 					}
 					else
 					{
 						objectOutput3 = new ObjectOutputStream(clients.get(1).getOutputStream());
 						playerClass obj1 = new playerClass(3,3,addresses.get(0));
 						objectOutput3.writeObject(obj1);
-						// objectOutput3.flush(); objectOutput3.close();
 					}
 				}
 				else if (numPlayers==4) 
@@ -125,35 +137,31 @@ public class Initiator
 						objectOutput2 = new ObjectOutputStream(clients.get(0).getOutputStream());
 						playerClass obj = new playerClass(2,4,addresses.get(2));
 						objectOutput2.writeObject(obj);
-						// objectOutput2.flush(); objectOutput2.close();
 					}
 					else if (clientSocket == clients.get(1))
 					{
 						objectOutput3 = new ObjectOutputStream(clients.get(1).getOutputStream());
 						playerClass obj1 = new playerClass(3,4,addresses.get(0));
 						objectOutput3.writeObject(obj1);
-						// objectOutput3.flush(); objectOutput3.close();
 					}	
 					else
 					{
 						objectOutput4 = new ObjectOutputStream(clients.get(2).getOutputStream());
 						playerClass obj2 = new playerClass(4,4,addresses.get(1));
 						objectOutput4.writeObject(obj2);
-						// objectOutput4.flush(); objectOutput4.close();
 					}	
-				}
-				else
-				{
-					System.out.println("Number of players exceeded");
-					System.exit(1);
 				}
 
 				try
 				{	
 					////Inputstream to receive from the client
 					BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					new receive(in);
-					new sendToAll(stdIn,allOutputStreams);		////Outputstream to send data to every other player
+					new receive(in,1,player,numPlayers);
+					
+					java.util.Timer timer = new java.util.Timer();
+					sendToAll sendd = new sendToAll(allOutputStreams);
+					timer.schedule(sendd,250,10);	////Outputstream to send data to every other player starting after 250 ms recurring every 10 ms
+
 				}
 				catch (IOException exx)
 				{
@@ -166,4 +174,28 @@ public class Initiator
 				
 		}
 	}
+
+
+	public class sendToAll extends TimerTask
+	{
+		ArrayList<PrintWriter> outs;
+		String data;
+		public sendToAll (ArrayList<PrintWriter> out)
+		{
+			outs = out;
+		}
+
+		public void run()
+		{
+			if (numPlayers==2)
+				data = movObj.paddle0.vel + " " + movObj.powerused + " "+ movObj.paddle2.vel + " " + movObj.paddle3.vel;
+			else if (numPlayers==3)
+				data = movObj.paddle0.vel + " " + movObj.powerused + " " + movObj.paddle2.vel;
+			else
+				data = movObj.paddle0.vel + " " + movObj.powerused;
+			for (int i=0;i<outs.size();i++)
+				outs.get(i).println(data);
+		}
+	}
+
 }
