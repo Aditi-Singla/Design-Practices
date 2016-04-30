@@ -156,7 +156,7 @@ public class Initiator implements ActionListener
 				{	
 					////Inputstream to receive from the client
 					BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-					new receive(in,1,player,numPlayers);
+					new receive(in,1,player,numPlayers,movObj);
 					
 					java.util.Timer timer = new java.util.Timer();
 					sendToAll sendd = new sendToAll(allOutputStreams);
@@ -188,11 +188,11 @@ public class Initiator implements ActionListener
 		public void run()
 		{
 			if (numPlayers==2)
-				data = movObj.paddle0.vel + " " + movObj.powerused + " "+ movObj.paddle2.vel + " " + movObj.paddle3.vel;
+				data = (movObj.paddle0.x - movObj.w) + " " + movObj.paddle0.vel + " " + movObj.paddle0.powerUsed + " "+ (movObj.paddle2.x - movObj.w) + " " + (movObj.paddle3.y - movObj.h);
 			else if (numPlayers==3)
-				data = movObj.paddle0.vel + " " + movObj.powerused + " " + movObj.paddle2.vel;
+				data = (movObj.paddle0.x - movObj.w) + " " + movObj.paddle0.vel + " " + movObj.paddle0.powerUsed + " " + (movObj.paddle3.y - movObj.h);
 			else
-				data = movObj.paddle0.vel + " " + movObj.powerused;
+				data = (movObj.paddle0.x - movObj.w) + " " + movObj.paddle0.vel + " " + movObj.paddle0.powerUsed;
 			for (int i=0;i<outs.size();i++)
 				outs.get(i).println(data);
 		}

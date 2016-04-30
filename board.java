@@ -9,6 +9,7 @@ public class board extends JPanel{
       public board(int width,int height) {
             w = (width-600)/2;
             h = (height-600)/2;
+            
       }
 
 	public void paintComponent(Graphics g1) {            

@@ -6,7 +6,8 @@ import java.awt.event.*;
 public class ball extends JPanel  {
 	
 
-	double x ,y ,velx = -21.4 + 42.8 * Math.random(),vely = ((2 * (int)(2 * Math.random()))-1) * Math.sqrt(457.96 - velx * velx);
+	double x ,y ,velx = Math.sqrt(457.96),vely = 0;
+	//velx = -21.4 + 42.8 * Math.random(),vely = ((2 * (int)(2 * Math.random()))-1) * Math.sqrt(457.96 - velx * velx);
 	int w,h;
 	public ball(int width, int height) {
 		w = width;

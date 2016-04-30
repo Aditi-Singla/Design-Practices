@@ -54,7 +54,7 @@ public class Player extends Thread implements ActionListener
 						BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
 
 						/////////////////receive (BufferedReader in, int myplayerNum, int fromPlayerNum, int total)
-						new receive(inSERVER,2,1,2); //////Received game data from PLAYER 1
+						new receive(inSERVER,2,1,2,movObj); //////Received game data from PLAYER 1
 						java.util.Timer timer = new java.util.Timer();
 					sendToAll sendd = new sendToAll(outs);
 					timer.schedule(sendd,250,10);
@@ -70,10 +70,10 @@ public class Player extends Thread implements ActionListener
 								ServerSocket s2for3 = new ServerSocket(8232);
 								Socket client3 = s2for3.accept();
 								BufferedReader in3 = new BufferedReader (new InputStreamReader(client3.getInputStream()));
-								new receive(in3,2,3,3);		//// Received game data from PLAYER 3
+								new receive(in3,2,3,3,movObj);		//// Received game data from PLAYER 3
 
 								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-								new receive(inSERVER,2,1,3); //////Received game data from PLAYER 1
+								new receive(inSERVER,2,1,3,movObj); //////Received game data from PLAYER 1
 
 								PrintWriter out3 = new PrintWriter(client3.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
@@ -89,10 +89,10 @@ public class Player extends Thread implements ActionListener
 							{
 								Socket s3to2 = new Socket(address,8232);
 								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2,3,2,3);		////Received game data from PLAYER 2
+								new receive (in2,3,2,3,movObj);		////Received game data from PLAYER 2
 
 								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-								new receive(inSERVER,3,1,3); //////Received game data from PLAYER 1
+								new receive(inSERVER,3,1,3,movObj); //////Received game data from PLAYER 1
 				
 								PrintWriter out2 = new PrintWriter(s3to2.getOutputStream(),true);
 								ArrayList<PrintWriter> outs = new ArrayList<PrintWriter>();
@@ -130,10 +130,10 @@ public class Player extends Thread implements ActionListener
 								outlist.add(out3);
 
 								BufferedReader in4 = new BufferedReader(new InputStreamReader(s2to4.getInputStream()));
-								new receive (in4,2,4,4);		//// Received game data from PLAYER 4
+								new receive (in4,2,4,4,movObj);		//// Received game data from PLAYER 4
 
 								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-								new receive(inSERVER,2,1,4); //////Received game data from PLAYER 1
+								new receive(inSERVER,2,1,4,movObj); //////Received game data from PLAYER 1
 
 								java.util.Timer timer = new java.util.Timer();
 					sendToAll sendd = new sendToAll(outlist);
@@ -163,10 +163,10 @@ public class Player extends Thread implements ActionListener
 								outlist.add(out3);
 
 								BufferedReader in2 = new BufferedReader(new InputStreamReader(s3to2.getInputStream()));
-								new receive (in2,3,2,4);		//// Received game data from PLAYER 2
+								new receive (in2,3,2,4,movObj);		//// Received game data from PLAYER 2
 
 								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-								new receive(inSERVER,3,1,4); //////Received game data from PLAYER 1
+								new receive(inSERVER,3,1,4,movObj); //////Received game data from PLAYER 1
 
 								java.util.Timer timer = new java.util.Timer();
 					sendToAll sendd = new sendToAll(outlist);
@@ -197,10 +197,10 @@ public class Player extends Thread implements ActionListener
 								outlist.add(out2);
 
 								BufferedReader in3 = new BufferedReader(new InputStreamReader(s4to3.getInputStream()));
-								new receive (in3,4,3,4);		//// Received game data from PLAYER 3
+								new receive (in3,4,3,4,movObj);		//// Received game data from PLAYER 3
 
 								BufferedReader inSERVER = new BufferedReader(new InputStreamReader(s.getInputStream()));
-								new receive(inSERVER,4,1,4); //////Received game data from PLAYER 1
+								new receive(inSERVER,4,1,4,movObj); //////Received game data from PLAYER 1
 
 
 								java.util.Timer timer = new java.util.Timer();
@@ -251,13 +251,13 @@ public class Player extends Thread implements ActionListener
 
 		public void run()
 		{
-			data = movObj.paddle0.vel + " " + movObj.powerused;
+			data = (movObj.paddle0.x - movObj.w) + " " + movObj.paddle0.vel + " " + movObj.paddle0.powerUsed;
 			for (int i=0;i<outs.size();i++)
 				outs.get(i).println(data);
 		}
 	}
 
-}
+
 
  class setPrivateServer extends Thread
 	{
@@ -287,8 +287,9 @@ public class Player extends Thread implements ActionListener
 				System.out.println("client accepted");
 
 				BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-				new receive(in,myplayer,forplayer,4);
+				new receive(in,myplayer,forplayer,4,movObj);
 			}
 			catch (IOException e) {System.out.println("weird error");e.printStackTrace();}
 		}
 	}
+}

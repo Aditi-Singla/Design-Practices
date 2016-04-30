@@ -15,7 +15,7 @@ public class movingObjects extends JPanel  implements ActionListener{
    lives lives1;
    ball ball1;
    powers powers1;
-   Timer t = new Timer(25,this);
+   Timer t = new Timer(20,this);
    int paddles[];
    JLayeredPane lpane;
    int temp[];
@@ -32,6 +32,8 @@ public class movingObjects extends JPanel  implements ActionListener{
   String host_name;
 
   int powerused = 0;
+
+  String code = "";
   
 
    
@@ -44,6 +46,16 @@ public class movingObjects extends JPanel  implements ActionListener{
       isInitiator = flag_initiator;
       paddleVel = 30;
       host_name = host_address;
+
+      // switch(numOfPlayers) {
+      //    case 1:  code = "111";
+      //             break;
+      //    case 2:  code = "011";
+      //             break;
+      //    case 3:  code = "001";
+      //             break;
+      //    default: ;
+      //    }
 
       lpane = new JLayeredPane();  //using JLayeredPane for multiple planes
                    
@@ -87,6 +99,7 @@ public class movingObjects extends JPanel  implements ActionListener{
       paddle3.setOpaque(false);
       ball1.setBounds(0,0,(2*w)+600,(2*h)+600);
       ball1.setOpaque(false);
+      // if 
       lives1.setBounds(0,0,(2*w)+600,(2*h)+600);
       lives1.setOpaque(false);
       powers1.setBounds(0,0,(2*w)+600,(2*h)+600);
@@ -187,9 +200,32 @@ public class movingObjects extends JPanel  implements ActionListener{
        if (paddles[0] ==1)
          powers1.incNum();
       paddle0.move();
-      paddle1.move();
-      paddle2.move();
-      paddle3.move();
+      if(numOfPlayers == 1 ) {
+         
+         paddle1.move();
+         paddle2.move();
+         paddle3.move();
+      }
+      else if (numOfPlayers==2 && isInitiator)
+      {
+         System.out.println("" + paddle1.x);
+         paddle1.repaint();
+         paddle2.move();
+         paddle3.move();
+      }
+      else if (numOfPlayers==3 && isInitiator)
+      {
+         paddle1.repaint();
+         paddle2.repaint();
+         paddle3.move();
+      }
+
+      else {
+         
+         paddle1.repaint();
+         paddle2.repaint();
+         paddle3.repaint();
+      }
 
       
       ball1.repaint();
@@ -214,6 +250,10 @@ public class movingObjects extends JPanel  implements ActionListener{
          default: ;
          }
       }
+      // if (isInitiator)
+      //    callAIs(code);
+      // else
+      //    callAIs("111");
       
       
 
@@ -540,7 +580,7 @@ public class movingObjects extends JPanel  implements ActionListener{
          else if(code.equals("released"))
             stop();
       }
-
+}
       /*Moving the paddle to its left when left key is pressed*/
       public void left() {
          if (paddle0.vel > 0 )
@@ -600,7 +640,7 @@ public class movingObjects extends JPanel  implements ActionListener{
       }
 
 
-   }
+   
   public void aiForPaddle1() {
    /*Computer Algorithm for paddle1 (left)*/
       if(x_sign<0) {
@@ -736,4 +776,21 @@ public class movingObjects extends JPanel  implements ActionListener{
          paddle3.vel = 0;
       /////////////////////////////////////////
   }
+
+  // public void callAIs(String code)
+  // {
+  //     switch (code)
+  //     {
+  //        case "000" : break;
+  //        case "001" : aiForPaddle3(); break;
+  //        case "010" : aiForPaddle2(); break;
+  //        case "011" : aiForPaddle2(); aiForPaddle3(); break;
+  //        case "100" : aiForPaddle1(); break;
+  //        case "101" : aiForPaddle1(); aiForPaddle3(); break;
+  //        case "110" : aiForPaddle1(); aiForPaddle2(); break;
+  //        case "111" : aiForPaddle1(); aiForPaddle2(); aiForPaddle3(); break;
+  //        default : ;
+  //     }
+  // }
+
 }

@@ -8,6 +8,7 @@ public class paddle extends JPanel {
 	double w,h,l;
 	double x ,vel = 0,acc = 1,y;
 	boolean isH;
+	int powerUsed = 0;
 
 	public paddle(double width,double height,boolean isHorizontal,double l) {
 		h = height;
