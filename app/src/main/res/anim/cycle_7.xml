@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
-<cycleInterpolator xmlns:android="schemas.android.com/apk/res/android" android:cycles="7" />
-=======
-<cycleInterpolator xmlns:android="schemas.android.com/apk/res/android" android:cycles="20" />
->>>>>>> 5175820c07b078763ac1803c81da5a06a044109b
