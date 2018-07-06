@@ -1,0 +1,11 @@
+Deviations from the Design Document are:
+
+1) The variables which will be written to the sockets for the rest of the players, per frame, include:
+ • Velocity of paddle (single coordinate) 
+ • Integer specifying special power used [0 for no power, 1 for spin left, 2 for spin right, 3 for invisibility, 4 for extra speed]
+
+2) Once the connection is lost, the player can never reconnect and get the control of the paddle.
+
+3) Special Powers : Code written (Commented); Not tested
+
+4) Network Outage : Code written (Commented); Not tested
